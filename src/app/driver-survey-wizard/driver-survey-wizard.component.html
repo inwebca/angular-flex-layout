@@ -1,0 +1,34 @@
+<form formGroup="form" (ngSubmit)="submitSurvey()">
+    <mat-horizontal-stepper #stepper labelPosition="bottom">
+      <mat-step *ngFor="let step of steps;" [ngSwitch]="step.questionType">
+        <ng-template matStepLabel>{{step.label}}</ng-template>
+        <div *ngSwitchCase="'Choice'">
+          <!-- <gri-wp-driver-departure-wizard-choice [questionLabel]=" step.label"
+                                                 [isMultiple]="step.questionIsMultiple"
+                                                 [groupName]="step.questionId"
+                                                 [parent]="driverDepartureForm"></gri-wp-driver-departure-wizard-choice> -->
+        </div>
+        <div *ngSwitchCase="'NestedChoice'">
+          <!-- <gri-wp-driver-departure-wizard-nested-choice [group]="getGroup(step.questionId)"
+                                                        [questionLabel]=" step.label"></gri-wp-driver-departure-wizard-nested-choice> -->
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
+          <button mat-flat-button (click)="stepper.previous()">Previous</button>
+          <button mat-flat-button color="primary" (click)="stepper.next()">Next</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template
+          matStepLabel></ng-template>
+        <!-- <gri-wp-driver-departure-wizard-summary [form]="driverDepartureForm" [steps]="steps"
+                                                [selectedAnswers]="driverSurveyChoices.answers"
+                                                [questionsPriority]="driverSurveyChoices.questionPriority"
+                                                (questionsOrder)="updateQuestionOrder($event)"
+                                                (navigateToStep)="navigateToStep($event, stepper)"></gri-wp-driver-departure-wizard-summary> -->
+        <div fxLayout="row" fxLayoutAlign="end" class="buttons-container" >
+          <button mat-button (click)="stepper.previous()">Previous</button>
+          <button mat-flat-button color="primary" type="submit">Submit</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </form>

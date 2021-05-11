@@ -5,19 +5,20 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
+import { MatStepperModule } from "@angular/material/stepper";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DriverSurveyChoicesComponent } from './driver-survey-choices/driver-survey-choices.component';
+import { DriverSurveyWizardComponent } from './driver-survey-wizard/driver-survey-wizard.component';
 import { DriverSurveyTripsComponent } from './driver-survey-trips/driver-survey-trips.component';
 import { DriverSurveyCardsComponent } from './driver-survey-cards/driver-survey-cards.component';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DriverSurveyChoicesComponent,
+    DriverSurveyWizardComponent,
     DriverSurveyTripsComponent,
     DriverSurveyCardsComponent
   ],
@@ -29,7 +30,9 @@ import { FormBuilder } from '@angular/forms';
     MatToolbarModule,
     MatCardModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatStepperModule,
+    FormsModule
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent]

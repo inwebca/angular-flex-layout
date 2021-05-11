@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DriverSurveyChoicesComponent } from './driver-survey-choices.component';
+import { DriverSurveyWizardComponent } from './driver-survey-wizard.component';
 
 describe('DriverSurveyChoicesComponent', () => {
-  let component: DriverSurveyChoicesComponent;
-  let fixture: ComponentFixture<DriverSurveyChoicesComponent>;
+  let component: DriverSurveyWizardComponent;
+  let fixture: ComponentFixture<DriverSurveyWizardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DriverSurveyChoicesComponent ]
+      declarations: [ DriverSurveyWizardComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DriverSurveyChoicesComponent);
+    fixture = TestBed.createComponent(DriverSurveyWizardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

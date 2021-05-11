@@ -8,13 +8,14 @@ import { SurveyService } from 'src/services/survey.service';
 
 @Component({
   selector: 'app-driver-survey-choices',
-  templateUrl: './driver-survey-choices.component.html',
-  styleUrls: ['./driver-survey-choices.component.scss']
+  templateUrl: './driver-survey-wizard.component.html',
+  styleUrls: ['./driver-survey-wizard.component.scss']
 })
-export class DriverSurveyChoicesComponent implements OnInit, OnDestroy {
+export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
 
   surveyChoices: IDriverSurvey;
   form: FormGroup;
+  steps: Step[];
 
   private readonly destroy$ = new EventEmitter<void>();
 
@@ -38,7 +39,11 @@ export class DriverSurveyChoicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  createSteps(formValues: IDriverSurvey): Step[] {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
+  createSteps(formValues: IDriverSurvey): void {
 
     const steps = formValues.questions.map(
       question => ({
@@ -53,7 +58,7 @@ export class DriverSurveyChoicesComponent implements OnInit, OnDestroy {
       step.index = index;
     });
 
-    return steps;
+    this.steps = steps;
 
   }
 
@@ -87,9 +92,10 @@ export class DriverSurveyChoicesComponent implements OnInit, OnDestroy {
     return group;
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
+  submitSurvey(){
+    console.log(this.form.value);
   }
+
 
 }
 
