@@ -14,13 +14,17 @@ import { DriverSurveyWizardComponent } from './driver-survey-wizard/driver-surve
 import { DriverSurveyTripsComponent } from './driver-survey-trips/driver-survey-trips.component';
 import { DriverSurveyCardsComponent } from './driver-survey-cards/driver-survey-cards.component';
 import { FormBuilder, FormsModule } from '@angular/forms';
+import { DriverSurveyWizardChoiceComponent } from './driver-survey-wizard-choice/driver-survey-wizard-choice.component';
+import { DriverSurveyWizardNestedChoiceComponent } from './driver-survey-wizard-nested-choice/driver-survey-wizard-nested-choice.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DriverSurveyWizardComponent,
     DriverSurveyTripsComponent,
-    DriverSurveyCardsComponent
+    DriverSurveyCardsComponent,
+    DriverSurveyWizardChoiceComponent,
+    DriverSurveyWizardNestedChoiceComponent
   ],
   imports: [
     BrowserModule,
