@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { IChoice, IDriverSurvey, INestedChoice, IQuestion, Step } from 'src/models/survey.model';
@@ -94,6 +95,10 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
 
   submitSurvey(){
     console.log(this.form.value);
+  }
+
+  navigateToStep(stepIndex: number, stepper: MatStepper): void {
+    stepper.selectedIndex = stepIndex;
   }
 
 

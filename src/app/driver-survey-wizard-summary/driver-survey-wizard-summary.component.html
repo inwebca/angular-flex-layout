@@ -4,9 +4,9 @@
       <ul>
         <li *ngFor="let choice of surveyChoices">
           {{choice.label}}
-          <!-- <button mat-icon-button (click)="editChoice(choice)">
+          <button mat-icon-button (click)="editChoice(choice.index)" type="button">
             <mat-icon style="font-size: 18px;">edit</mat-icon>
-          </button> -->
+          </button>
           <ul>
             <li *ngFor="let answer of choice.answers">
               {{answer.label}}

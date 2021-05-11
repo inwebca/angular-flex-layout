@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Answer, NestedAnswer, Step } from 'src/models/survey.model';
 
@@ -12,22 +12,34 @@ export class DriverSurveyWizardSummaryComponent implements OnInit {
   @Input() parent: FormGroup;
   @Input() steps: Step[];
 
+  @Output() readonly navigateToStep = new EventEmitter<number>();
 
   surveyChoices: SurveyChoices[];
 
   constructor() { }
 
   ngOnInit(): void {
+
+    this.createSurveyChoicesArray();
+
+    this.parent.valueChanges.subscribe(_ => {
+      this.createSurveyChoicesArray();
+    })
+  }
+
+  createSurveyChoicesArray() {
     this.surveyChoices = this.steps.map(x => ({
       label: x.label,
-      answers: this.getAnswersFromQuestionId(x.questionId, x.questionType)
+      answers: this.getAnswersFromQuestionId(x.questionId, x.questionType),
+      index: x.index
     }) as SurveyChoices);
   }
 
-  getAnswersFromQuestionId(questionId: number, questionType: string): Answer[]{
+  getAnswersFromQuestionId(questionId: number, questionType: string): Answer[] {
     const group = this.parent.get(questionId.toString()) as FormGroup;
     const displayedAnswers = group.get('displayedAnswers')?.value as Answer[] | NestedAnswer[];
     const selectedAnswers = group.get('selectedAnswers')?.value as number[];
+    const arr: Answer[] = [];
 
     switch (questionType) {
       case 'Choice': {
@@ -36,20 +48,23 @@ export class DriverSurveyWizardSummaryComponent implements OnInit {
       }
       case 'NestedChoice': {
         const answersArray = displayedAnswers as NestedAnswer[];
-        const selectedAnswersArr: Answer[] = answersArray.reduce((currentItem: any[], item: NestedAnswer) => [...currentItem , ...item.answers], []);
-        return selectedAnswersArr.filter( x=> selectedAnswers.includes(x.id));
+        const selectedAnswersArr: Answer[] = answersArray.reduce((currentItem: any[], item: NestedAnswer) => [...currentItem, ...item.answers], []);
+        return selectedAnswersArr.filter(x => selectedAnswers.includes(x.id));
       }
       default: {
-        const arr: Answer[] = []
         return arr;
       }
     }
   }
 
+  editChoice(stepIndex:number): void {
+    this.navigateToStep.emit(stepIndex);
+  }
 }
 
 class SurveyChoices {
   label: string;
   groupName: number;
   answers: Answer[];
+  index: number;
 }
