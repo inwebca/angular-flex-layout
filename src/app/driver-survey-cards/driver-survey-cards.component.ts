@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ISurvey } from 'src/models/survey.model';
 import { SurveyService } from 'src/services/survey.service';
@@ -15,7 +15,6 @@ export class DriverSurveyCardsComponent implements OnInit {
 
   constructor(
     private surveyService: SurveyService, 
-    private route: ActivatedRoute,
     private router: Router,
     ){}
 

@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DriverSurveyChoicesComponent } from './driver-survey-choices/driver-survey-choices.component';
 import { DriverSurveyTripsComponent } from './driver-survey-trips/driver-survey-trips.component';
 import { DriverSurveyCardsComponent } from './driver-survey-cards/driver-survey-cards.component';
+import { FormBuilder } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { DriverSurveyCardsComponent } from './driver-survey-cards/driver-survey-
     MatIconModule,
     MatButtonModule
   ],
-  providers: [],
+  providers: [FormBuilder],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
