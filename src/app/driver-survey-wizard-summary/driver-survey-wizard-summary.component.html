@@ -1,1 +1,48 @@
-<p>driver-survey-wizard-summary works!</p>
+<div fxLayout.xs="column" fxLayout.gt-xs="row">
+    <div fxFlex.xs="100" fxFlex.gt-xs="50" >
+      <label class="label">Summary of choices</label>
+      <ul>
+        <li *ngFor="let choice of surveyChoices">
+          {{choice.label}}
+          <!-- <button mat-icon-button (click)="editChoice(choice)">
+            <mat-icon style="font-size: 18px;">edit</mat-icon>
+          </button> -->
+          <ul>
+            <li *ngFor="let answer of choice.answers">
+              {{answer.label}}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- <div fxFlex.xs="100" fxFlex.gt-xs="50">
+      <div fxLayout="row">
+        <div fxFlex="90%">
+          <section class="selection-list-title-container">
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <span class="title">{{ 'dashboard.driverdeparture.wizard.label.priority' | translate }}</span>
+              <mat-icon matSuffix
+                        matTooltip="{{ 'dashboard.driverdeparture.wizard.tooltip.priority' | translate }}"
+                        matTooltipPosition="above">
+                help
+              </mat-icon>
+            </div>
+          </section>
+          <mat-selection-list #questionsMatList class="selection-list">
+            <mat-list-option *ngFor="let question of questionsPriority;" [value]="question">
+              {{question.label}}
+              ({{question.priority}})
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+        <div fxFlex>
+          <button mat-icon-button (click)="reorder(questionsMatList.selectedOptions.selected[0]?.value, true)">
+            <mat-icon>expand_less</mat-icon>
+          </button>
+          <button mat-icon-button (click)="reorder(questionsMatList.selectedOptions.selected[0]?.value, false)">
+            <mat-icon>expand_more</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div> -->
+  </div>

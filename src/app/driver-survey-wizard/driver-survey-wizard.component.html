@@ -8,15 +8,9 @@
         [isMultiple]="step.questionIsMultiple"
         [groupName]="step.questionId" 
         [parent]="form"></app-driver-survey-wizard-choice>
-        <!-- <gri-wp-driver-departure-wizard-choice [questionLabel]=" step.label"
-                                                 [isMultiple]="step.questionIsMultiple"
-                                                 [groupName]="step.questionId"
-                                                 [parent]="driverDepartureForm"></gri-wp-driver-departure-wizard-choice> -->
       </div>
       <div *ngSwitchCase="'NestedChoice'">
-        <app-driver-survey-wizard-nested-choice></app-driver-survey-wizard-nested-choice>
-        <!-- <gri-wp-driver-departure-wizard-nested-choice [group]="getGroup(step.questionId)"
-                                                        [questionLabel]=" step.label"></gri-wp-driver-departure-wizard-nested-choice> -->
+        <app-driver-survey-wizard-nested-choice [groupName]="step.questionId" [questionLabel]=" step.label" [parent]="form"></app-driver-survey-wizard-nested-choice>
       </div>
       <pre>{{form.value | json}}</pre>
       <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
@@ -26,7 +20,7 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel></ng-template>
-      <app-driver-survey-wizard-summary></app-driver-survey-wizard-summary>
+      <app-driver-survey-wizard-summary [parent]="form" [steps]="steps"></app-driver-survey-wizard-summary>
       <!-- <gri-wp-driver-departure-wizard-summary [form]="driverDepartureForm" [steps]="steps"
                                                 [selectedAnswers]="driverSurveyChoices.answers"
                                                 [questionsPriority]="driverSurveyChoices.questionPriority"

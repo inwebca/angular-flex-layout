@@ -1,0 +1,22 @@
+.label{
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: flex;
+  }
+  
+  .selection-list-title-container{
+    border:1px solid #ccc;
+    border-bottom: none;
+    text-align: center;
+    padding:0.5rem;
+  
+    .title{
+      font-weight: bold;
+    }
+  }
+  
+  .selection-list{
+    padding-top:0;
+    border:1px solid #ccc;
+  }
+  
