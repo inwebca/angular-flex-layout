@@ -1,0 +1,13 @@
+.box {
+  border: 1px;;
+  border-color: red;
+  border-style: solid;
+}
+
+.item {
+  width: 100px;
+  /* height: 50px; */
+  background-color: #FFDE49;
+  margin: 10px;
+  text-align: center;
+}
