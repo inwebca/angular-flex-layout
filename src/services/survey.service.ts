@@ -44,7 +44,7 @@ export class SurveyService {
                     multipleanswer: true,
                     priority: 4,
                     questionType: 'Choice',
-                    selectedAnswers: [] as unknown,
+                    selectedAnswers: [1],
                     displayedAnswers: [{
                         id: 1,
                         label: 'Friday 12 March',
@@ -65,7 +65,7 @@ export class SurveyService {
                     multipleanswer: false,
                     priority: 3,
                     questionType: 'Choice',
-                    selectedAnswers: [5],
+                    selectedAnswers: [] as unknown,
                     displayedAnswers: [{
                         id: 4,
                         label: 'AM',

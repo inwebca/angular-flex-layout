@@ -1,1 +1,23 @@
-<p>driver-survey-wizard-choice works!</p>
+<div formGroup="parent">
+    <div formGroupName="groupName">
+      <label class="question-label">{{questionLabel}}</label>
+      <div *ngIf="isMultiple; else elseBlock">
+        <div class="checkbox-group">
+          <mat-checkbox *ngFor="let answer of displayedAnswers" class="checkbox"
+                        [checked]="selectedAnswers.includes(answer.id)" (change)="onCheckboxChange($event.checked, answer.id)"
+          >{{answer.label}}</mat-checkbox>
+        </div>
+      </div>
+      <ng-template #elseBlock>
+        <mat-radio-group class="radio-group">
+          <mat-radio-button *ngFor="let answer of displayedAnswers"
+                            [value]="answer.id"
+                            (change)="onRadioButtonChange(radiobutton)"
+                            [checked]="selectedAnswers.includes(answer.id)"
+                            class="radio-button" #radiobutton>{{answer.label}}</mat-radio-button>
+        </mat-radio-group>
+      </ng-template>
+    </div> 
+  </div>
+  
+  

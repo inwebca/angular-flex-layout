@@ -6,6 +6,8 @@ import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatStepperModule } from "@angular/material/stepper";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatRadioModule } from "@angular/material/radio";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +18,7 @@ import { DriverSurveyCardsComponent } from './driver-survey-cards/driver-survey-
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { DriverSurveyWizardChoiceComponent } from './driver-survey-wizard-choice/driver-survey-wizard-choice.component';
 import { DriverSurveyWizardNestedChoiceComponent } from './driver-survey-wizard-nested-choice/driver-survey-wizard-nested-choice.component';
+import { DriverSurveyWizardSummaryComponent } from './driver-survey-wizard-summary/driver-survey-wizard-summary.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { DriverSurveyWizardNestedChoiceComponent } from './driver-survey-wizard-
     DriverSurveyTripsComponent,
     DriverSurveyCardsComponent,
     DriverSurveyWizardChoiceComponent,
-    DriverSurveyWizardNestedChoiceComponent
+    DriverSurveyWizardNestedChoiceComponent,
+    DriverSurveyWizardSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +40,8 @@ import { DriverSurveyWizardNestedChoiceComponent } from './driver-survey-wizard-
     MatIconModule,
     MatButtonModule,
     MatStepperModule,
+    MatCheckboxModule,
+    MatRadioModule,
     FormsModule
   ],
   providers: [FormBuilder],

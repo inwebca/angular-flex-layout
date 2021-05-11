@@ -1,0 +1,16 @@
+.question-label{
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: flex;
+  }
+  
+  .radio-group, .checkbox-group{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .radio-button,
+  .checkbox{
+    margin: 0.5rem 0;
+  }
+  
