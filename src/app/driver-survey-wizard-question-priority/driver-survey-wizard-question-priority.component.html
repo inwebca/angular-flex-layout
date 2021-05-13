@@ -11,7 +11,7 @@
         </div>
       </section>
       <mat-selection-list #questionsMatList class="selection-list" [multiple]="false">
-        <mat-list-option *ngFor="let question of questionPriority;" [value]="question" >
+        <mat-list-option *ngFor="let question of questionsPriority;" [value]="question" >
           {{question.label}}
           ({{question.priority}})
         </mat-list-option>

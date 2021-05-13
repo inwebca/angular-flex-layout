@@ -69,16 +69,11 @@ export interface Answer {
   export class DriverSurveyChoices {
     surveyDriverId: number;
     questionPriority: QuestionPriority[];
-    answers: SelectedAnswer[];
+    answers: number[];
   }
 
   export class QuestionPriority {
     id: number;
     priority: number;
     label: string;
-  }
-
-  export class SelectedAnswer {
-    id: number;
-    priority: number;
   }

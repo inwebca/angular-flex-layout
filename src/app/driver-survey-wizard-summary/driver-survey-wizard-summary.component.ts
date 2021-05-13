@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';import { FormGroup } from '@angular/forms';
-import { Step } from 'src/models/survey.model';
+import { QuestionPriority, Step } from 'src/models/survey.model';
 ;
 
 @Component({
@@ -10,7 +10,10 @@ import { Step } from 'src/models/survey.model';
 export class DriverSurveyWizardSummaryComponent implements OnInit {
 
   @Input() parent: FormGroup;
-  @Input() steps: Step[];  constructor() { }
+  @Input() steps: Step[]; 
+  @Input() questionsPriority: QuestionPriority[]; 
+  
+  constructor() { }
 
   ngOnInit(): void {
   }

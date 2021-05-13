@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Answer, NestedAnswer, Step } from 'src/models/survey.model';
+import { Answer, NestedAnswer, QuestionPriority, Step } from 'src/models/survey.model';
 import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
 
 class SurveyChoices {
@@ -21,6 +21,7 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
 
   @Input() parent: FormGroup;
   @Input() steps: Step[];
+
 
   surveyChoices: SurveyChoices[];
 

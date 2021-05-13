@@ -1,4 +1,4 @@
-<form formGroup="form" (ngSubmit)="submitSurvey()">
+<form formGroup="form">
   <mat-horizontal-stepper #stepper labelPosition="bottom">
     <mat-step *ngFor="let step of steps;" [ngSwitch]="step.questionType">
       <ng-template matStepLabel>{{step.label}}</ng-template>
@@ -12,7 +12,6 @@
       <div *ngSwitchCase="'NestedChoice'">
         <app-driver-survey-wizard-nested-choice [groupName]="step.questionId" [questionLabel]=" step.label" [parent]="form"></app-driver-survey-wizard-nested-choice>
       </div>
-      <pre>{{form.value | json}}</pre>
       <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
         <button mat-flat-button (click)="stepper.previous()" type="button">Previous</button>
         <button mat-flat-button color="primary" (click)="stepper.next()" type="button">Next</button>
@@ -20,15 +19,10 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Confirmation</ng-template>
-      <app-driver-survey-wizard-summary [parent]="form" [steps]="steps"></app-driver-survey-wizard-summary>
-      <!-- <gri-wp-driver-departure-wizard-summary [form]="driverDepartureForm" [steps]="steps"
-                                                [selectedAnswers]="driverSurveyChoices.answers"
-                                                [questionsPriority]="driverSurveyChoices.questionPriority"
-                                                (questionsOrder)="updateQuestionOrder($event)"
-                                                (navigateToStep)="navigateToStep($event, stepper)"></gri-wp-driver-departure-wizard-summary> -->
+      <app-driver-survey-wizard-summary [parent]="form" [steps]="steps" [questionsPriority]="questionsPriority"></app-driver-survey-wizard-summary>
       <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
         <button mat-button (click)="stepper.previous()" type="button">Previous</button>
-        <button mat-flat-button color="primary" type="submit">Submit</button>
+        <button mat-flat-button color="primary" (click)="submitSurvey();">Submit</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

@@ -18,6 +18,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
   surveyChoices: IDriverSurvey;
   form: FormGroup;
   steps: Step[];
+  questionsPriority:  QuestionPriority[];
 
   private readonly destroy$ = new EventEmitter<void>();
 
@@ -33,6 +34,10 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
 
     this.eventService.navigateToStep$.subscribe((stepIndex: number) => {
       this.stepper.selectedIndex = stepIndex;
+    });
+
+    this.eventService.changeQuestionPriority$.subscribe((questionsPriority: QuestionPriority[]) => {
+      console.log(questionsPriority);
     })
 
     this.route.paramMap.pipe(
@@ -44,7 +49,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
           this.surveyChoices = value;
           this.createSteps(value);
           this.createForm(value);
-
+          this.setQuestionsPriority();
         });
       }
     });
@@ -103,12 +108,36 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     return group;
   }
 
-  submitSurvey(){
-    console.log(this.form.value);
+  setQuestionsPriority() : void{
+    this.questionsPriority = this.steps.map(x => ({
+      id: x.questionId,
+      priority: x.priority,
+      label: x.label
+    }) as QuestionPriority).sort((a, b) => (a.priority > b.priority) ? 1 : -1);
   }
 
-  navigateToStep(stepIndex: number, stepper: MatStepper): void {
-    stepper.selectedIndex = stepIndex;
+  submitSurvey(){
+
+    const driverSurveyChoices = {
+      surveyDriverId: this.surveyChoices.surveyDriverId,
+      answers: this.getFormValues(),
+      questionPriority: []
+    } as DriverSurveyChoices;
+
+  console.log(driverSurveyChoices);
+    return false;
+  }
+
+  getFormValues(): number[]{
+
+    const selectedAnswersValues: number[] = [];
+
+    Object.keys(this.form.controls).forEach(key => {
+      const group = this.form.get(key);
+      selectedAnswersValues.push(group?.get('selectedAnswers')?.value);
+    });
+
+    return selectedAnswersValues.reduce((currentItem, item) => currentItem.concat(item), []) as number[];
   }
 }
 
