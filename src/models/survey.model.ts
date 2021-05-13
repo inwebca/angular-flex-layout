@@ -66,3 +66,19 @@ export interface Answer {
     showGroupOnly: boolean;
   }
   
+  export class DriverSurveyChoices {
+    surveyDriverId: number;
+    questionPriority: QuestionPriority[];
+    answers: SelectedAnswer[];
+  }
+
+  export class QuestionPriority {
+    id: number;
+    priority: number;
+    label: string;
+  }
+
+  export class SelectedAnswer {
+    id: number;
+    priority: number;
+  }

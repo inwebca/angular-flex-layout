@@ -8,6 +8,8 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatRadioModule } from "@angular/material/radio";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatListModule } from "@angular/material/list";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +21,7 @@ import { FormBuilder, FormsModule } from '@angular/forms';
 import { DriverSurveyWizardChoiceComponent } from './driver-survey-wizard-choice/driver-survey-wizard-choice.component';
 import { DriverSurveyWizardNestedChoiceComponent } from './driver-survey-wizard-nested-choice/driver-survey-wizard-nested-choice.component';
 import { DriverSurveyWizardSummaryComponent } from './driver-survey-wizard-summary/driver-survey-wizard-summary.component';
+import { DriverSurveyWizardQuestionPriorityComponent } from './driver-survey-wizard-question-priority/driver-survey-wizard-question-priority.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { DriverSurveyWizardSummaryComponent } from './driver-survey-wizard-summa
     DriverSurveyCardsComponent,
     DriverSurveyWizardChoiceComponent,
     DriverSurveyWizardNestedChoiceComponent,
-    DriverSurveyWizardSummaryComponent
+    DriverSurveyWizardSummaryComponent,
+    DriverSurveyWizardQuestionPriorityComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +46,8 @@ import { DriverSurveyWizardSummaryComponent } from './driver-survey-wizard-summa
     MatStepperModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatTooltipModule,
+    MatListModule,
     FormsModule
   ],
   providers: [FormBuilder],

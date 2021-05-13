@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { IChoice, IDriverSurvey, INestedChoice, IQuestion, Step } from 'src/models/survey.model';
+import { DriverSurveyChoices, IChoice, IDriverSurvey, INestedChoice, IQuestion, QuestionPriority, Step } from 'src/models/survey.model';
 import { SurveyService } from 'src/services/survey.service';
 
 @Component({
@@ -35,6 +35,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
           this.surveyChoices = value;
           this.createSteps(value);
           this.createForm(value);
+
         });
       }
     });
