@@ -21,9 +21,17 @@ export class DriverSurveyWizardNestedChoiceComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    debugger;
     this.formGroup = this.parent.get(this.groupName.toString()) as FormGroup;
     this.displayedAnswers = this.formGroup.get('displayedAnswers')?.value as NestedAnswerExtended[];
     this.selectedAnswers = this.formGroup.get('selectedAnswers')?.value as number[];
+
+
+    this.displayedAnswers.forEach(parent => {
+      parent.answers.forEach(child => {
+        child.checked = this.selectedAnswers.some(value => value === child.id)
+      })
+    })
   }
 
   checkAll(idGroup: number, checked: boolean): void {

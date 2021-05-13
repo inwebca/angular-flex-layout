@@ -86,7 +86,7 @@ export class SurveyService {
                     multipleanswer: true,
                     priority: 1,
                     questionType: 'NestedChoice',
-                    selectedAnswers: [12, 21],
+                    selectedAnswers: [11],
                     displayedAnswers: [{
                       idGroup: 1,
                       label: 'East coast',
