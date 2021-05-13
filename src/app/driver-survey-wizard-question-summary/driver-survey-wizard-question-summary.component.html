@@ -1,0 +1,14 @@
+<label class="label">Summary of choices</label>
+<ul>
+    <li *ngFor="let choice of surveyChoices">
+        {{choice.label}}
+        <button mat-icon-button (click)="editChoice(choice.index)" type="button">
+            <mat-icon style="font-size: 18px;">edit</mat-icon>
+        </button>
+        <ul>
+            <li *ngFor="let answer of choice.answers">
+                {{answer.label}}
+            </li>
+        </ul>
+    </li>
+</ul>

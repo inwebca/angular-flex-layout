@@ -22,6 +22,7 @@ import { DriverSurveyWizardChoiceComponent } from './driver-survey-wizard-choice
 import { DriverSurveyWizardNestedChoiceComponent } from './driver-survey-wizard-nested-choice/driver-survey-wizard-nested-choice.component';
 import { DriverSurveyWizardSummaryComponent } from './driver-survey-wizard-summary/driver-survey-wizard-summary.component';
 import { DriverSurveyWizardQuestionPriorityComponent } from './driver-survey-wizard-question-priority/driver-survey-wizard-question-priority.component';
+import { DriverSurveyWizardQuestionSummaryComponent } from './driver-survey-wizard-question-summary/driver-survey-wizard-question-summary.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DriverSurveyWizardQuestionPriorityComponent } from './driver-survey-wiz
     DriverSurveyWizardChoiceComponent,
     DriverSurveyWizardNestedChoiceComponent,
     DriverSurveyWizardSummaryComponent,
-    DriverSurveyWizardQuestionPriorityComponent
+    DriverSurveyWizardQuestionPriorityComponent,
+    DriverSurveyWizardQuestionSummaryComponent
   ],
   imports: [
     BrowserModule,
