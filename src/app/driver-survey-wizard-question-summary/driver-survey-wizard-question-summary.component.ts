@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Answer, NestedAnswer, Step } from 'src/models/survey.model';
+import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
 
 class SurveyChoices {
   label: string;
@@ -21,11 +22,9 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
   @Input() parent: FormGroup;
   @Input() steps: Step[];
 
-  @Output() readonly navigateToStep = new EventEmitter<number>();
-
   surveyChoices: SurveyChoices[];
 
-  constructor() { }
+  constructor(private eventService: DriverSurveyEventService) { }
 
   ngOnInit(): void {
 
@@ -68,7 +67,7 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
   }
 
   editChoice(stepIndex:number): void {
-    this.navigateToStep.emit(stepIndex);
+    this.eventService.navigateToStep(stepIndex);
   }
 
 }

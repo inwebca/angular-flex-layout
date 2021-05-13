@@ -20,7 +20,7 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Confirmation</ng-template>
-      <app-driver-survey-wizard-summary [parent]="form" [steps]="steps" (navigateToStep)="navigateToStep($event, stepper)"></app-driver-survey-wizard-summary>
+      <app-driver-survey-wizard-summary [parent]="form" [steps]="steps"></app-driver-survey-wizard-summary>
       <!-- <gri-wp-driver-departure-wizard-summary [form]="driverDepartureForm" [steps]="steps"
                                                 [selectedAnswers]="driverSurveyChoices.answers"
                                                 [questionsPriority]="driverSurveyChoices.questionPriority"

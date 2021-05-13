@@ -1,10 +1,11 @@
-import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { DriverSurveyChoices, IChoice, IDriverSurvey, INestedChoice, IQuestion, QuestionPriority, Step } from 'src/models/survey.model';
+import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
 import { SurveyService } from 'src/services/survey.service';
 
 @Component({
@@ -20,12 +21,20 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new EventEmitter<void>();
 
+  @ViewChild('stepper') stepper: MatStepper;
+
   constructor(private route: ActivatedRoute,
     private surveyService: SurveyService,
     private fb: FormBuilder,
+    private eventService: DriverSurveyEventService,
     private mediaObserver: MediaObserver) { }
 
   ngOnInit(): void {
+
+    this.eventService.navigateToStep$.subscribe((stepIndex: number) => {
+      this.stepper.selectedIndex = stepIndex;
+    })
+
     this.route.paramMap.pipe(
       takeUntil(this.destroy$)
     ).subscribe((param) => {
@@ -101,7 +110,5 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
   navigateToStep(stepIndex: number, stepper: MatStepper): void {
     stepper.selectedIndex = stepIndex;
   }
-
-
 }
 
