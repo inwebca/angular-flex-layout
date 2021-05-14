@@ -1,22 +1,17 @@
-<div formGroup="parent">
-    <div formGroupName="groupName">
-      <label class="question-label">{{questionLabel}}</label>
-      <div *ngIf="isMultiple; else elseBlock">
-        <div class="checkbox-group">
-          <mat-checkbox *ngFor="let answer of displayedAnswers" class="checkbox"
-                        [checked]="selectedAnswers.includes(answer.id)" (change)="onCheckboxChange($event.checked, answer.id)"
-          >{{answer.label}}</mat-checkbox>
-        </div>
-      </div>
-      <ng-template #elseBlock>
-        <mat-radio-group class="radio-group">
-          <mat-radio-button *ngFor="let answer of displayedAnswers"
-                            [value]="answer.id"
-                            (change)="onRadioButtonChange(radiobutton)"
-                            [checked]="selectedAnswers.includes(answer.id)"
-                            class="radio-button" #radiobutton>{{answer.label}}</mat-radio-button>
-        </mat-radio-group>
-      </ng-template>
+<div [formGroup]="parent">
+    <div [formGroupName]="groupName">
+        <label class="question-label">{{questionLabel}}</label>
+          <mat-selection-list formControlName="selectedAnswers" [multiple]="isMultiple">
+            <mat-list-option *ngFor="let answer of displayedAnswers" [value]="answer.id" checkboxPosition="before">
+              {{ answer.label }}
+            </mat-list-option>
+          </mat-selection-list>
+
+        <mat-error *ngIf="selectedAnswersFormControl.invalid && selectedAnswersFormControl.dirty">
+          champ requis
+        </mat-error>
+
+
     </div> 
   </div>
   

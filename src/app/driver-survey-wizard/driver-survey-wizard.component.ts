@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, RequiredValidator, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
@@ -90,7 +90,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
         case 'Choice': {
           const choice = question as IChoice;
           group[question.id] = this.fb.group({
-            selectedAnswers: [choice.selectedAnswers],
+            selectedAnswers: new FormControl(choice.selectedAnswers, Validators.required),
             displayedAnswers: [choice.displayedAnswers]
           });
           break;
@@ -98,7 +98,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
         case 'NestedChoice': {
           const nestedChoice = question as INestedChoice;
           group[question.id] = this.fb.group({
-            selectedAnswers: [nestedChoice.selectedAnswers],
+            selectedAnswers: new FormControl(nestedChoice.selectedAnswers, Validators.required),
             displayedAnswers: [nestedChoice.displayedAnswers]
           });
           break;
@@ -121,6 +121,9 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
   }
 
   submitSurvey(){
+
+debugger;
+console.log(this.form.valid);
 
     const driverSurveyChoices = {
       surveyDriverId: this.surveyChoices.surveyDriverId,

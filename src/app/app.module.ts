@@ -10,6 +10,8 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatListModule } from "@angular/material/list";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DriverSurveyWizardComponent } from './driver-survey-wizard/driver-survey-wizard.component';
 import { DriverSurveyTripsComponent } from './driver-survey-trips/driver-survey-trips.component';
 import { DriverSurveyCardsComponent } from './driver-survey-cards/driver-survey-cards.component';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { DriverSurveyWizardChoiceComponent } from './driver-survey-wizard-choice/driver-survey-wizard-choice.component';
 import { DriverSurveyWizardNestedChoiceComponent } from './driver-survey-wizard-nested-choice/driver-survey-wizard-nested-choice.component';
 import { DriverSurveyWizardSummaryComponent } from './driver-survey-wizard-summary/driver-survey-wizard-summary.component';
@@ -50,7 +52,10 @@ import { DriverSurveyWizardQuestionSummaryComponent } from './driver-survey-wiza
     MatRadioModule,
     MatTooltipModule,
     MatListModule,
-    FormsModule
+    MatFormFieldModule, 
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent]

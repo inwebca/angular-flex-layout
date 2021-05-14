@@ -65,7 +65,7 @@ export class SurveyService {
                     multipleanswer: false,
                     priority: 3,
                     questionType: 'Choice',
-                    selectedAnswers: [] as unknown,
+                    selectedAnswers: [5],
                     displayedAnswers: [{
                         id: 4,
                         label: 'AM',
@@ -86,7 +86,7 @@ export class SurveyService {
                     multipleanswer: true,
                     priority: 1,
                     questionType: 'NestedChoice',
-                    selectedAnswers: [11],
+                    selectedAnswers: [11,21,22],
                     displayedAnswers: [{
                       idGroup: 1,
                       label: 'East coast',

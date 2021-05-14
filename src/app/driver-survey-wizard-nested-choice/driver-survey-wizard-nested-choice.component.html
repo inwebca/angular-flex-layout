@@ -1,21 +1,24 @@
-<div formGroup="parent">
-    <div formGroupName="groupName">
+<div [formGroup]="parent">
+    <div [formGroupName]="groupName">
         <label class="question-label">{{questionLabel}}</label>
-        <ul class="nested-answers">
-            <li *ngFor="let group of displayedAnswers">
-                <mat-checkbox (change)="checkAll(group.idGroup, $event.checked)" [checked]="group.allChecked"
-                    [indeterminate]="someChecked(group.idGroup)">
-                    {{group.label}}
-                </mat-checkbox>
-                <ul class="nested-answers margin-left">
-                    <li *ngFor="let nestedAnswer of group.answers" class="checkbox-item">
-                        <mat-checkbox (change)="updateAllChecked(group.idGroup, nestedAnswer.id, $event.checked)"
-                            [checked]="nestedAnswer.checked">
-                            {{nestedAnswer.label}}
-                        </mat-checkbox>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+        <mat-selection-list formControlName="selectedAnswers" (selectionChange)="updateAllChecked($event);">
+            <ng-container *ngFor="let group of displayedAnswers">
+                <mat-list-item>
+                    <mat-checkbox [checked]="group.allChecked" (change)="groupCheckboxChange(group.idGroup, $event.checked)" [indeterminate]="group.indeterminate">
+                        {{group.label}}
+                    </mat-checkbox>
+                </mat-list-item>
+                <mat-list class="margin-left">
+                    <div *ngFor="let nestedAnswer of group.answers">
+                        <mat-list-option [value]="nestedAnswer.id" checkboxPosition="before" [selected]="nestedAnswer.checked">{{ nestedAnswer.label }}</mat-list-option>
+                    </div>
+                </mat-list>
+            </ng-container>
+        </mat-selection-list>
+
+        <mat-error *ngIf="selectedAnswersFormControl.invalid && selectedAnswersFormControl.dirty">
+            champ requis
+          </mat-error>   
+    
     </div>
 </div>
