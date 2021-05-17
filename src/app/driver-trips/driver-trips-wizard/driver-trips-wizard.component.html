@@ -1,1 +1,17 @@
-<p>driver-trips-wizard works!</p>
+<form [formGroup]="form">
+    <mat-horizontal-stepper #stepper labelPosition="bottom">
+        <mat-step>
+            <ng-template matStepLabel>Suggested trips</ng-template>
+            <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
+                <button mat-flat-button color="primary" (click)="stepper.next()" type="button">Next</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Priority</ng-template>
+            <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
+                <button mat-flat-button (click)="stepper.previous()" type="button">Previous</button>
+                <button mat-flat-button color="primary" (click)="stepper.next()" type="button">Next</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</form>

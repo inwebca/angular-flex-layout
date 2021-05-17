@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
+import { MatStepperModule } from "@angular/material/stepper";
 
+
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DriverTripsRoutingModule } from './driver-trips-routing.module';
 import { DriverTripsCardsComponent } from './driver-trips-cards/driver-trips-cards.component';
 import { DriverTripsWizardComponent } from './driver-trips-wizard/driver-trips-wizard.component';
@@ -17,7 +20,13 @@ import { DriverTripsWizardComponent } from './driver-trips-wizard/driver-trips-w
     DriverTripsRoutingModule,
     FlexLayoutModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  providers:[
+    FormBuilder
   ]
 })
 export class DriverTripsModule { }
