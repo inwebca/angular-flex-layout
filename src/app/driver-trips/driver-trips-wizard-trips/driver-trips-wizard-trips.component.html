@@ -1,1 +1,59 @@
-<p>driver-trips-wizard-trips works!</p>
+<p>Departure day:</p>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+      </ng-container>
+
+    <!-- Destination Column -->
+    <ng-container matColumnDef="destination">
+        <th mat-header-cell *matHeaderCellDef> Destination. </th>
+        <td mat-cell *matCellDef="let element"> {{element.destination}} </td>
+    </ng-container>
+
+    <!-- Dept Hour Column -->
+    <ng-container matColumnDef="dept. hour">
+        <th mat-header-cell *matHeaderCellDef> Dept. Hour </th>
+        <td mat-cell *matCellDef="let element"> {{element.deptHour}} </td>
+    </ng-container>
+
+    <!-- Mileage Column -->
+    <ng-container matColumnDef="mileage">
+        <th mat-header-cell *matHeaderCellDef> Mileage </th>
+        <td mat-cell *matCellDef="let element"> {{element.mileage}} </td>
+    </ng-container>
+
+    <!-- First RDV Column -->
+    <ng-container matColumnDef="first rdv">
+        <th mat-header-cell *matHeaderCellDef> First rdv </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstRdv}} </td>
+    </ng-container>
+
+    <!-- Trip type Column -->
+    <ng-container matColumnDef="trip type">
+        <th mat-header-cell *matHeaderCellDef> Trip type </th>
+        <td mat-cell *matCellDef="let element"> {{element.tripType}} </td>
+    </ng-container>
+
+    <!-- Detail Column -->
+    <ng-container matColumnDef="detail">
+        <th mat-header-cell *matHeaderCellDef> Detail </th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-flat-button color="primary" (click)="showDetail(element.id)">Details</button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

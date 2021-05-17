@@ -16,7 +16,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DriverSurveyWizardComponent } from '../driver-survey/driver-survey-wizard/driver-survey-wizard.component';
-import { DriverSurveyTripsComponent } from '../driver-survey/driver-survey-trips/driver-survey-trips.component';
 import { DriverSurveyCardsComponent } from '../driver-survey/driver-survey-cards/driver-survey-cards.component';
 import { DriverSurveyWizardChoiceComponent } from '../driver-survey/driver-survey-wizard-choice/driver-survey-wizard-choice.component';
 import { DriverSurveyWizardNestedChoiceComponent } from '../driver-survey/driver-survey-wizard-nested-choice/driver-survey-wizard-nested-choice.component';
@@ -30,7 +29,6 @@ import { DriverSurveyRoutingModule } from './driver-survey-routing.module';
 @NgModule({
   declarations: [
     DriverSurveyWizardComponent,
-    DriverSurveyTripsComponent,
     DriverSurveyCardsComponent,
     DriverSurveyWizardChoiceComponent,
     DriverSurveyWizardNestedChoiceComponent,

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DriverSurveyTripsComponent } from './driver-survey-trips.component';
+import { DriverTripsDetailsDialog } from './driver-trips-details.component';
 
-describe('DriverSurveyTripsComponent', () => {
-  let component: DriverSurveyTripsComponent;
-  let fixture: ComponentFixture<DriverSurveyTripsComponent>;
+describe('DriverTripsDetailsDialog', () => {
+  let component: DriverTripsDetailsDialog;
+  let fixture: ComponentFixture<DriverTripsDetailsDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DriverSurveyTripsComponent ]
+      declarations: [ DriverTripsDetailsDialog ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DriverSurveyTripsComponent);
+    fixture = TestBed.createComponent(DriverTripsDetailsDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
