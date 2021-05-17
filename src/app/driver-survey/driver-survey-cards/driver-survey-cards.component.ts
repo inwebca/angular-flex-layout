@@ -23,6 +23,6 @@ export class DriverSurveyCardsComponent implements OnInit {
   }
 
   goToSurvey(surveyId:number){
-    this.router.navigate(['/survey-choices', surveyId]);
+    this.router.navigate(['/driver-survey/survey-choices', surveyId]);
   }
 }
