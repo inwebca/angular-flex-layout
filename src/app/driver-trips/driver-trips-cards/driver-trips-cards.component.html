@@ -1,1 +1,10 @@
-<p>driver-trips-cards works!</p>
+<div fxLayout="row" fxLayoutAlign="left center" fxLayoutGap="20px" class="container">
+    <mat-card *ngFor="let trip of trips$ | async" class="card" fxFlex="33%">
+        <mat-card-header>
+            <mat-card-title>Trips based on survey {{trip.id}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+            <button mat-flat-button color="primary" (click)="goToTrips(trip.id)">Go to trips</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
