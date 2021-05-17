@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { DriverSurveyModule } from './driver-survey/driver-survey.module';
+import { DriverTripsModule } from './driver-trips/driver-trips.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DriverSurveyModule } from './driver-survey/driver-survey.module';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    DriverSurveyModule
+    DriverSurveyModule,
+    DriverTripsModule
   ],
   bootstrap: [AppComponent]
 })

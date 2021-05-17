@@ -4,7 +4,7 @@ import { DriverSurveyCardsComponent } from './driver-survey-cards/driver-survey-
 import { DriverSurveyWizardComponent } from './driver-survey-wizard/driver-survey-wizard.component';
 
 const routes: Routes = [
-  { path: '', component: DriverSurveyCardsComponent},
+  { path: 'driver-survey', component: DriverSurveyCardsComponent},
   { path: 'driver-survey/survey-choices/:id', component: DriverSurveyWizardComponent },
 ];
 
