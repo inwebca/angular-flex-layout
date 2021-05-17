@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import {  MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ITripDetails, TripDialogData } from 'src/models/trips.model';
+import { IDrop, ITripDetails, TripDialogData } from 'src/models/trips.model';
 import { TripsService } from 'src/services/trips.service';
 
 @Component({
@@ -11,6 +11,8 @@ import { TripsService } from 'src/services/trips.service';
 export class DriverTripsDetailsDialog {
 
   details: ITripDetails;
+  dataSource: IDrop[];
+  displayedColumns: string[] = ['drop', 'apptime', 'clientaddress'];
 
   constructor( 
     private readonly tripsService : TripsService,
@@ -20,6 +22,7 @@ export class DriverTripsDetailsDialog {
     ngOnInit() {
       this.tripsService.getTripDetails(this.data.tripId).subscribe(value => {
         this.details = value;
+        this.dataSource = value.drops;
       });
     }
 

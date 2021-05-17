@@ -6,6 +6,7 @@ import { TripsService } from 'src/services/trips.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DriverTripsDetailsDialog } from '../driver-trips-details/driver-trips-details.component';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 
 
@@ -16,7 +17,7 @@ import { DriverTripsDetailsDialog } from '../driver-trips-details/driver-trips-d
 })
 export class DriverTripsWizardTripsComponent implements OnInit {
 
-  displayedColumns: string[] = ['select', 'destination', 'dept. hour', 'mileage', 'first rdv', 'trip type', 'detail'];
+  displayedColumns: string[] = ['select', 'destination', 'depthour', 'mileage', 'firstrdv', 'triptype', 'detail'];
   dataSource: MatTableDataSource<ISuggestedTrips>;
   selection: SelectionModel<ISuggestedTrips>;
 
@@ -29,9 +30,8 @@ export class DriverTripsWizardTripsComponent implements OnInit {
     });
   }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: ISuggestedTrips): string {
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row`;
+  onTripSelected(event:MatCheckboxChange, row: any): void{
+    console.log(event, row);
   }
 
   showDetail(tripId:number){

@@ -1,16 +1,16 @@
 <p>Departure day:</p>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th mat-header-cell *matHeaderCellDef class="select-col"></th>
           <td mat-cell *matCellDef="let row">
             <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
+                          (change)="onTripSelected($event, row)"
                           [checked]="selection.isSelected(row)">
             </mat-checkbox>
           </td>
@@ -23,7 +23,7 @@
     </ng-container>
 
     <!-- Dept Hour Column -->
-    <ng-container matColumnDef="dept. hour">
+    <ng-container matColumnDef="depthour">
         <th mat-header-cell *matHeaderCellDef> Dept. Hour </th>
         <td mat-cell *matCellDef="let element"> {{element.deptHour}} </td>
     </ng-container>
@@ -35,13 +35,13 @@
     </ng-container>
 
     <!-- First RDV Column -->
-    <ng-container matColumnDef="first rdv">
+    <ng-container matColumnDef="firstrdv">
         <th mat-header-cell *matHeaderCellDef> First rdv </th>
         <td mat-cell *matCellDef="let element"> {{element.firstRdv}} </td>
     </ng-container>
 
     <!-- Trip type Column -->
-    <ng-container matColumnDef="trip type">
+    <ng-container matColumnDef="triptype">
         <th mat-header-cell *matHeaderCellDef> Trip type </th>
         <td mat-cell *matCellDef="let element"> {{element.tripType}} </td>
     </ng-container>
