@@ -7,6 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DriverTripsDetailsDialog } from '../driver-trips-details/driver-trips-details.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { DriverTripsEventService } from 'src/services/driver-trips-event.service';
 
 
 
@@ -21,7 +22,10 @@ export class DriverTripsWizardTripsComponent implements OnInit {
   dataSource: MatTableDataSource<ISuggestedTrips>;
   selection: SelectionModel<ISuggestedTrips>;
 
-  constructor(private tripsService: TripsService, public dialog: MatDialog) { }
+  constructor(
+    private tripsService: TripsService, 
+    private tripsEventService: DriverTripsEventService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.tripsService.getSuggestedTrips().subscribe(value => {
@@ -30,8 +34,8 @@ export class DriverTripsWizardTripsComponent implements OnInit {
     });
   }
 
-  onTripSelected(event:MatCheckboxChange, row: any): void{
-    console.log(event, row);
+  onTripSelected(event:MatCheckboxChange, row: ISuggestedTrips): void{
+    event.checked ? this.tripsEventService.addTrip(row) : this.tripsEventService.removeTrip(row);
   }
 
   showDetail(tripId:number){

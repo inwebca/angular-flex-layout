@@ -1,24 +1,23 @@
 <app-driver-trips-wizard-timer></app-driver-trips-wizard-timer>
-<form [formGroup]="form">
-    <mat-horizontal-stepper #stepper labelPosition="bottom">
-        <mat-step>
-            <ng-template matStepLabel>Suggested trips</ng-template>
-            <div>
-                <app-driver-trips-wizard-trips></app-driver-trips-wizard-trips>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
-                <button mat-flat-button color="primary" (click)="stepper.next()" type="button">Next</button>
-            </div>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Priority</ng-template>
-            <div>
-                <app-driver-trips-wizard-trips-priority></app-driver-trips-wizard-trips-priority>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
-                <button mat-flat-button (click)="stepper.previous()" type="button">Previous</button>
-                <button mat-flat-button color="primary" (click)="stepper.next()" type="button">Next</button>
-            </div>
-        </mat-step>
-    </mat-horizontal-stepper>
-</form>
+
+<mat-horizontal-stepper #stepper labelPosition="bottom">
+    <mat-step>
+        <ng-template matStepLabel>Suggested trips</ng-template>
+        <div>
+            <app-driver-trips-wizard-trips></app-driver-trips-wizard-trips>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
+            <button mat-flat-button color="primary" (click)="stepper.next()" type="button">Next</button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Priority</ng-template>
+        <div>
+            <app-driver-trips-wizard-trips-priority></app-driver-trips-wizard-trips-priority>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
+            <button mat-flat-button (click)="stepper.previous()" type="button">Previous</button>
+            <button mat-flat-button color="primary" (click)="stepper.next()" type="button">Next</button>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>

@@ -9,7 +9,7 @@ export interface ISuggestedTrips{
     deptHour: string,
     mileage:number,
     firstRdv: string,
-    tripType: string
+    tripType: string,
 }
 
 export interface ITripDetails{

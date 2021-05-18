@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ITrips } from 'src/models/trips.model';
 
 @Component({
   selector: 'app-driver-trips-wizard',
@@ -8,14 +8,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class DriverTripsWizardComponent implements OnInit {
 
-  form: FormGroup;
+  trips : ITrips
 
-  constructor( private fb: FormBuilder) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      
-    })
+  
   }
 
 }
