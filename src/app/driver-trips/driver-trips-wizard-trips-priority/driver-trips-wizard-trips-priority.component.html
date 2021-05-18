@@ -1,3 +1,27 @@
-<p>driver-trips-wizard-trips-priority works!</p>
-
-<pre>{{selectedTrips | json }}</pre>
+<div fxLayout="row">
+    <div fxFlex="99%">
+      <section class="selection-list-title-container">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <label class="label">Priority</label>
+          <mat-icon matSuffix
+                    matTooltip="priority"
+                    matTooltipPosition="above">
+            help
+          </mat-icon>
+        </div>
+      </section>
+      <mat-selection-list class="selection-list" [multiple]="false" #tripsMatList>
+        <mat-list-option *ngFor="let trip of selectedTrips;" [value]="trip" >
+          {{trip.destination}} {{trip.deptHour}} {{trip.mileage}} {{trip.firstRdv}} {{trip.tripType}} ({{trip.priority}})
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div fxLayout="column">
+      <button mat-icon-button (click)="reorder(tripsMatList.selectedOptions.selected[0]?.value, true)" type="button">
+        <mat-icon>expand_less</mat-icon>
+      </button>
+      <button mat-icon-button (click)="reorder(tripsMatList.selectedOptions.selected[0]?.value, false)" type="button">
+        <mat-icon>expand_more</mat-icon>
+      </button>
+    </div>
+  </div>

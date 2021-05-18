@@ -10,6 +10,8 @@ import { MatTableModule } from "@angular/material/table";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatListModule } from "@angular/material/list";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -36,6 +38,8 @@ import { DriverTripsDetailsDialog } from './driver-trips-details/driver-trips-de
     MatCheckboxModule,
     MatDialogModule,
     MatDividerModule,
+    MatListModule,
+    MatTooltipModule,
     FormsModule,
     ReactiveFormsModule,
   ],
