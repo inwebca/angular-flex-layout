@@ -32,10 +32,10 @@ export class DriverTripsWizardTripsComponent implements OnInit {
       this.dataSource = new MatTableDataSource<ISuggestedTrips>(value);
       this.selection = new SelectionModel<ISuggestedTrips>(true, []);
     });
-  }
 
-  onTripSelected(event:MatCheckboxChange, row: ISuggestedTrips): void{
-    event.checked ? this.tripsEventService.addTrip(row) : this.tripsEventService.removeTrip(row);
+    this.selection.changed.subscribe(value => {
+     this.tripsEventService.updateSelectedTrips(value.source.selected);
+    })
   }
 
   showDetail(tripId:number){

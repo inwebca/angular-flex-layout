@@ -6,14 +6,9 @@ import { ISuggestedTrips, ITrips } from 'src/models/trips.model';
 })
 export class DriverTripsEventService {
 
-  @Output() addTrip$ = new EventEmitter<ISuggestedTrips>();
-  @Output() removeTrip$ = new EventEmitter<ISuggestedTrips>();
+  @Output() updateSelectedTrips$ = new EventEmitter<ISuggestedTrips[]>();
 
-  addTrip(selectedTrip: ISuggestedTrips){
-    this.addTrip$.emit(selectedTrip);
-  }
-
-  removeTrip(selectedTrip: ISuggestedTrips){
-    this.removeTrip$.emit(selectedTrip);
+  updateSelectedTrips(selectedTrips: ISuggestedTrips[]){
+    this.updateSelectedTrips$.emit(selectedTrips);
   }
 }

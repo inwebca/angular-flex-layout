@@ -9,30 +9,15 @@ import { DriverTripsEventService } from 'src/services/driver-trips-event.service
 })
 export class DriverTripsWizardTripsPriorityComponent implements OnInit {
 
-  selectedTrips : ISuggestedTripsExtended[] = [];
+  selectedTrips : ISuggestedTripsExtended[];
 
   constructor(private driverTripsEvents: DriverTripsEventService) { }
 
   ngOnInit(): void {
-    this.driverTripsEvents.addTrip$.subscribe((trip: ISuggestedTrips) => {
-      const extendedTrip = trip as ISuggestedTripsExtended;
-
-      if(!this.selectedTrips.includes(extendedTrip)){
-        extendedTrip.priority = this.selectedTrips.length + 1;
-        this.selectedTrips.push(extendedTrip);
-      };
-    });
-
-
-    this.driverTripsEvents.removeTrip$.subscribe((trip: ISuggestedTrips) => {
-      const extendedTrip = trip as ISuggestedTripsExtended;
-
-      if(this.selectedTrips.includes(extendedTrip)){
-        this.selectedTrips = this.selectedTrips.filter(item => item !== extendedTrip);
-        this.selectedTrips.forEach( (x, index) => {
-          x.priority = index + 1;
-        })
-      };
+    this.driverTripsEvents.updateSelectedTrips$.subscribe((selectedTrips: ISuggestedTrips[]) => {
+      const extendedTrip = selectedTrips as ISuggestedTripsExtended[];
+      extendedTrip.forEach( (x, index) => x.priority = index + 1);
+      this.selectedTrips = extendedTrip;
     });
   }
 
