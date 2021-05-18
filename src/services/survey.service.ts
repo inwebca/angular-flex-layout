@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
-import { Answer, IChoice, IDriverSurvey, INestedChoice, IQuestion, ISurvey } from "../models/survey.model";
+import { Answer, IChoice, IDate, IDriverSurvey, INestedChoice, IQuestion, ISurvey } from "../models/survey.model";
 
 @Injectable({
     providedIn: "root"
@@ -41,24 +41,10 @@ export class SurveyService {
                 {
                     id: 1,
                     label: 'Day',
-                    multipleanswer: true,
                     priority: 4,
-                    questionType: 'Choice',
-                    selectedAnswers: [1,2],
-                    displayedAnswers: [{
-                        id: 1,
-                        label: 'Friday 12 March',
-                        priority: 0
-                    }, {
-                        id: 2,
-                        label: 'Saturday 13 March',
-                        priority: 0
-                    }, {
-                        id: 3,
-                        label: 'Sunday 14 March',
-                        priority: 0
-                    }]
-                } as IChoice,
+                    questionType: 'Date',
+                    date: null,
+                } as IDate,
                 {
                     id: 2,
                     label: 'Hour',

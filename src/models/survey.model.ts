@@ -31,6 +31,14 @@ export interface IQuestion {
     questionType: string;
 }
 
+export interface IDate extends IQuestion {
+  id: number;
+  label: string;
+  priority: number;
+  questionType: string;
+  date?: Date;
+}
+
 export interface IChoice extends IQuestion {
     id: number;
     label: string;
@@ -51,6 +59,13 @@ export interface INestedChoice extends IQuestion {
     displayedAnswers: NestedAnswer[];
 }
 
+
+export interface DateType {
+  id: number;
+  label: string;
+  priority: number;
+  questionType: string;
+}
 
 export interface Answer {
     id: number;

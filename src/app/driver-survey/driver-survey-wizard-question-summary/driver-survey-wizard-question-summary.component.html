@@ -5,10 +5,15 @@
         <button mat-icon-button (click)="editChoice(choice.index)" type="button">
             <mat-icon style="font-size: 18px;">edit</mat-icon>
         </button>
-        <ul>
+        <ul *ngIf="choice.answers else singleAnswer">
             <li *ngFor="let answer of choice.answers">
                 {{answer.label}}
             </li>
         </ul>
+        <ng-template #singleAnswer>
+            <ul>
+                <li>{{choice.answer}}</li>
+            </ul>
+        </ng-template>
     </li>
 </ul>

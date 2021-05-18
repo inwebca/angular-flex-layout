@@ -12,6 +12,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatListModule } from "@angular/material/list";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from "@angular/material/core";
 
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +25,7 @@ import { DriverSurveyWizardSummaryComponent } from '../driver-survey/driver-surv
 import { DriverSurveyWizardQuestionPriorityComponent } from '../driver-survey/driver-survey-wizard-question-priority/driver-survey-wizard-question-priority.component';
 import { DriverSurveyWizardQuestionSummaryComponent } from '../driver-survey/driver-survey-wizard-question-summary/driver-survey-wizard-question-summary.component';
 import { DriverSurveyRoutingModule } from './driver-survey-routing.module';
+import { DriverSurveyWizardDateComponent } from './driver-survey-wizard-date/driver-survey-wizard-date.component';
 
 
 
@@ -34,7 +37,8 @@ import { DriverSurveyRoutingModule } from './driver-survey-routing.module';
     DriverSurveyWizardNestedChoiceComponent,
     DriverSurveyWizardSummaryComponent,
     DriverSurveyWizardQuestionPriorityComponent,
-    DriverSurveyWizardQuestionSummaryComponent
+    DriverSurveyWizardQuestionSummaryComponent,
+    DriverSurveyWizardDateComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +55,8 @@ import { DriverSurveyRoutingModule } from './driver-survey-routing.module';
     MatListModule,
     MatFormFieldModule, 
     MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
   ],

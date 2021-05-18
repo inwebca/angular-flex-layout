@@ -2,6 +2,9 @@
   <mat-horizontal-stepper #stepper labelPosition="bottom">
     <mat-step *ngFor="let step of steps;" [ngSwitch]="step.questionType">
       <ng-template matStepLabel>{{step.label}}</ng-template>
+      <div *ngSwitchCase="'Date'">
+        <app-driver-survey-wizard-date  [groupName]="step.questionId" [parent]="form"></app-driver-survey-wizard-date>
+      </div>
       <div *ngSwitchCase="'Choice'">
         <app-driver-survey-wizard-choice 
         [questionLabel]="step.label" 

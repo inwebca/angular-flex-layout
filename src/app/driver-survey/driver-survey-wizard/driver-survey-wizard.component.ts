@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, RequiredValidator, Validators } fr
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { DriverSurveyChoices, IChoice, IDriverSurvey, INestedChoice, IQuestion, QuestionPriority, Step } from 'src/models/survey.model';
+import { DriverSurveyChoices, IChoice, IDate, IDriverSurvey, INestedChoice, IQuestion, QuestionPriority, Step } from 'src/models/survey.model';
 import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
 import { SurveyService } from 'src/services/survey.service';
 
@@ -18,7 +18,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
   surveyChoices: IDriverSurvey;
   form: FormGroup;
   steps: Step[];
-  questionsPriority:  QuestionPriority[];
+  questionsPriority: QuestionPriority[];
 
   private readonly destroy$ = new EventEmitter<void>();
 
@@ -86,11 +86,20 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
 
     questions.forEach(question => {
       switch (question.questionType) {
+        case 'Date': {
+          const choice = question as IDate;
+          group[question.id] = this.fb.group({
+            selectedDate: new FormControl(choice.date, Validators.required),
+            type: 'Date'
+          });
+          break;
+        }
         case 'Choice': {
           const choice = question as IChoice;
           group[question.id] = this.fb.group({
             selectedAnswers: new FormControl(choice.selectedAnswers, Validators.required),
-            displayedAnswers: [choice.displayedAnswers]
+            displayedAnswers: [choice.displayedAnswers],
+            type: 'Choice'
           });
           break;
         }
@@ -98,7 +107,8 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
           const nestedChoice = question as INestedChoice;
           group[question.id] = this.fb.group({
             selectedAnswers: new FormControl(nestedChoice.selectedAnswers, Validators.required),
-            displayedAnswers: [nestedChoice.displayedAnswers]
+            displayedAnswers: [nestedChoice.displayedAnswers],
+            type: 'NestedChoice'
           });
           break;
         }
@@ -107,9 +117,9 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     return group;
   }
 
-  submitSurvey(){
+  submitSurvey() {
 
-  console.log(this.form.valid);
+    console.log(this.form.valid);
 
     const driverSurveyChoices = {
       surveyDriverId: this.surveyChoices.surveyDriverId,
@@ -121,16 +131,18 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  getFormValues(): number[]{
+  getFormValues(): number[] {
 
-    const selectedAnswersValues: number[] = [];
+    let selectedAnswersValues: number[] = [];
 
-    Object.keys(this.form.controls).forEach(key => {
-      const group = this.form.get(key);
-      selectedAnswersValues.push(group?.get('selectedAnswers')?.value);
+    Object.keys(this.form.value).forEach(key => {
+      const value = this.form.controls[key].get('selectedAnswers')?.value as number[];
+      if(value){
+        selectedAnswersValues = [...selectedAnswersValues, ...value]
+      }
     });
-
-    return selectedAnswersValues.reduce((currentItem, item) => currentItem.concat(item), []) as number[];
+    
+    return selectedAnswersValues;
   }
 }
 

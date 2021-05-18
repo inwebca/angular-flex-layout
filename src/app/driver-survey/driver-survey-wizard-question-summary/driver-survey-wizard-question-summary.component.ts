@@ -1,15 +1,22 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Answer, NestedAnswer, QuestionPriority, Step } from 'src/models/survey.model';
+import { Answer, DateType, IDate, NestedAnswer, QuestionPriority, Step } from 'src/models/survey.model';
 import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
 
-class SurveyChoices {
+// class SurveyChoices {
+//   label: string;
+//   groupName: number;
+//   answers: Answer[];
+//   date: Date;
+//   index: number;
+// }
+
+class SurveyChoices{
   label: string;
-  groupName: number;
-  answers: Answer[];
+  answer?: any;
+  answers?: Answer[] | NestedAnswer[];
   index: number;
 }
-
 
 @Component({
   selector: 'app-driver-survey-wizard-question-summary',
@@ -22,49 +29,62 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
   @Input() parent: FormGroup;
   @Input() steps: Step[];
 
-
-  surveyChoices: SurveyChoices[];
+  surveyChoices: SurveyChoices[] = [];
 
   constructor(private eventService: DriverSurveyEventService) { }
 
   ngOnInit(): void {
 
-    this.createSurveyChoicesArray();
+    this.createSelectedAnswersTree();
 
     this.parent.valueChanges.subscribe(_ => {
-      this.createSurveyChoicesArray();
-    })
+      this.surveyChoices = [];
+      this.createSelectedAnswersTree();
+     });
 
   }
 
-  createSurveyChoicesArray() {
-    this.surveyChoices = this.steps.map(x => ({
-      label: x.label,
-      answers: this.getAnswersFromQuestionId(x.questionId, x.questionType),
-      index: x.index
-    }) as SurveyChoices);
-  }
+  createSelectedAnswersTree(): void{
+    Object.keys(this.parent.value).forEach((key, index) => {
 
-  getAnswersFromQuestionId(questionId: number, questionType: string): Answer[] {
-    const group = this.parent.get(questionId.toString()) as FormGroup;
-    const displayedAnswers = group.get('displayedAnswers')?.value as Answer[] | NestedAnswer[];
-    const selectedAnswers = group.get('selectedAnswers')?.value as number[];
-    const arr: Answer[] = [];
-
-    switch (questionType) {
-      case 'Choice': {
-        const answersArray = displayedAnswers as Answer[];
-        return answersArray.filter(x => selectedAnswers.includes(x.id));
+      const group = this.parent.get(key);
+      const questionType = group.get('type').value;
+    
+      switch(questionType){
+        case 'Date': {
+          const answer = {
+            answer: group.get('selectedDate').value,
+            label: this.steps.find( x => x.questionId === parseInt(key)).label,
+            index: index
+          }
+          return this.surveyChoices.push(answer);
+        }
+        case 'Choice': {
+          const displayedAnswers = group.get('displayedAnswers')?.value as Answer[];
+          const selectedAnswers = group.get('selectedAnswers')?.value as number[];
+          const answer = {
+              answers:  displayedAnswers.filter(x => selectedAnswers.includes(x.id)),
+              label: this.steps.find( x => x.questionId === parseInt(key)).label,
+              index: index
+          }
+          return this.surveyChoices.push(answer);
+        }
+        case 'NestedChoice': {
+          const displayedAnswers = group.get('displayedAnswers')?.value as NestedAnswer[];
+          const selectedAnswers = group.get('selectedAnswers')?.value as number[];
+          const selectedAnswersArr: Answer[] = displayedAnswers.reduce((currentItem: any[], item: NestedAnswer) => [...currentItem, ...item.answers], []);
+          const answer = {
+            answers:  selectedAnswersArr.filter(x => selectedAnswers.includes(x.id)),
+            label: this.steps.find( x => x.questionId === parseInt(key)).label,
+            index: index
+          }
+          return this.surveyChoices.push(answer);
+        }
+        default: {
+          return null;
+        }
       }
-      case 'NestedChoice': {
-        const answersArray = displayedAnswers as NestedAnswer[];
-        const selectedAnswersArr: Answer[] = answersArray.reduce((currentItem: any[], item: NestedAnswer) => [...currentItem, ...item.answers], []);
-        return selectedAnswersArr.filter(x => selectedAnswers.includes(x.id));
-      }
-      default: {
-        return arr;
-      }
-    }
+    });
   }
 
   editChoice(stepIndex:number): void {
