@@ -20,7 +20,7 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Confirmation</ng-template>
-      <app-driver-survey-wizard-summary [parent]="form" [steps]="steps" [questionsPriority]="questionsPriority"></app-driver-survey-wizard-summary>
+      <app-driver-survey-wizard-summary [parent]="form" [steps]="steps"></app-driver-survey-wizard-summary>
       <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
         <button mat-button (click)="stepper.previous()" type="button">Previous</button>
         <button mat-flat-button color="primary" (click)="submitSurvey();">Submit</button>

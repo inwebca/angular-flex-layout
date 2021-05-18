@@ -1,20 +1,33 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
-import { Subject } from 'rxjs';
+import { EventEmitter, Injectable, OnDestroy, Output } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { QuestionPriority } from 'src/models/survey.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DriverSurveyEventService {
+export class DriverSurveyEventService implements OnDestroy{
 
-  @Output() navigateToStep$ = new EventEmitter<number>();
-  @Output() changeQuestionPriority$ = new EventEmitter<QuestionPriority[]>();
+  private step$ = new Subject<number>();
+  private questionPriority$ = new Subject<QuestionPriority[]>();
 
   navigateToStep(stepNumber: number){
-    this.navigateToStep$.emit(stepNumber);
+    this.step$.next(stepNumber);
+  }
+
+  get step(): Observable<number>{
+    return this.step$.asObservable();
   }
 
   changeQuestionPriority(questionsPriority: QuestionPriority[]){
-    this.changeQuestionPriority$.emit(questionsPriority);
+    this.questionPriority$.next(questionsPriority);
+  }
+
+  get questionPriority() {
+    return this.questionPriority$.asObservable();
+  }
+
+  ngOnDestroy(): void{
+    this.step$.unsubscribe();
+    this.questionPriority$.unsubscribe();
   }
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs/internal/Subject';
 import { ISuggestedTrips } from 'src/models/trips.model';
 import { DriverTripsEventService } from 'src/services/driver-trips-event.service';
 
@@ -14,11 +15,12 @@ export class DriverTripsWizardTripsPriorityComponent implements OnInit {
   constructor(private driverTripsEvents: DriverTripsEventService) { }
 
   ngOnInit(): void {
-    this.driverTripsEvents.updateSelectedTrips$.subscribe((selectedTrips: ISuggestedTrips[]) => {
-      const extendedTrip = selectedTrips as ISuggestedTripsExtended[];
+
+    this.driverTripsEvents.trips.subscribe((value: ISuggestedTrips[]) => {
+      const extendedTrip = value as ISuggestedTripsExtended[];
       extendedTrip.forEach( (x, index) => x.priority = index + 1);
       this.selectedTrips = extendedTrip;
-    });
+    })
   }
 
   reorder(selectedValue: any, up: boolean): void {
@@ -42,7 +44,6 @@ export class DriverTripsWizardTripsPriorityComponent implements OnInit {
       this.selectedTrips[index] = temp;
     }
     this.updateOrderLabel();
-    // this.eventService.changeQuestionPriority(this.questionsPriority);
   }
 
   updateOrderLabel(): void {

@@ -11,8 +11,7 @@ export class DriverSurveyWizardSummaryComponent implements OnInit {
 
   @Input() parent: FormGroup;
   @Input() steps: Step[]; 
-  @Input() questionsPriority: QuestionPriority[]; 
-  
+
   constructor() { }
 
   ngOnInit(): void {

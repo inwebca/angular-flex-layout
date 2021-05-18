@@ -32,13 +32,13 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.eventService.navigateToStep$.subscribe((stepIndex: number) => {
+    this.eventService.step.subscribe((stepIndex: number) => {
       this.stepper.selectedIndex = stepIndex;
     });
 
-    this.eventService.changeQuestionPriority$.subscribe((questionsPriority: QuestionPriority[]) => {
-      this.questionsPriority = questionsPriority;
-    })
+    this.eventService.questionPriority.subscribe((value: QuestionPriority[]) => {
+      this.questionsPriority = value;
+    });
 
     this.route.paramMap.pipe(
       takeUntil(this.destroy$)
@@ -49,7 +49,6 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
           this.surveyChoices = value;
           this.createSteps(value);
           this.createForm(value);
-          this.setQuestionsPriority();
         });
       }
     });
@@ -108,22 +107,9 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     return group;
   }
 
-  setQuestionsPriority() : void{
-    const questions =  this.steps.map(x => ({
-      id: x.questionId,
-      priority: x.priority,
-      label: x.label
-    }) as QuestionPriority).filter(x => {
-      return !(x.label.includes("Day") || x.label.includes("Hour"));
-    })
-    
-    this.questionsPriority = questions.sort((a, b) => (a.priority > b.priority) ? 1 : -1);
-  }
-
   submitSurvey(){
 
-debugger;
-console.log(this.form.valid);
+  console.log(this.form.valid);
 
     const driverSurveyChoices = {
       surveyDriverId: this.surveyChoices.surveyDriverId,
@@ -131,7 +117,7 @@ console.log(this.form.valid);
       questionPriority: this.questionsPriority
     } as DriverSurveyChoices;
 
-  console.log(driverSurveyChoices);
+    console.log(driverSurveyChoices);
     return false;
   }
 

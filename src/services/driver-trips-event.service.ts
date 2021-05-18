@@ -1,14 +1,23 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
-import { ISuggestedTrips, ITrips } from 'src/models/trips.model';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ISuggestedTrips } from 'src/models/trips.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DriverTripsEventService {
+export class DriverTripsEventService implements OnDestroy {
 
-  @Output() updateSelectedTrips$ = new EventEmitter<ISuggestedTrips[]>();
+  private trips$ = new BehaviorSubject<ISuggestedTrips[]>([]);
 
   updateSelectedTrips(selectedTrips: ISuggestedTrips[]){
-    this.updateSelectedTrips$.emit(selectedTrips);
+    this.trips$.next(selectedTrips);
+  }
+
+  get trips(): Observable<ISuggestedTrips[]>{
+    return this.trips$.asObservable();
+  }
+
+  ngOnDestroy() {
+    this.trips$.unsubscribe();
   }
 }

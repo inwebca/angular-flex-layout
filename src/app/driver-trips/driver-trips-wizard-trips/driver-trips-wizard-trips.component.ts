@@ -28,9 +28,11 @@ export class DriverTripsWizardTripsComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
+
     this.tripsService.getSuggestedTrips().subscribe(value => {
       this.dataSource = new MatTableDataSource<ISuggestedTrips>(value);
       this.selection = new SelectionModel<ISuggestedTrips>(true, []);
+      this.tripsEventService.updateSelectedTrips([]);
     });
 
     this.selection.changed.subscribe(value => {
