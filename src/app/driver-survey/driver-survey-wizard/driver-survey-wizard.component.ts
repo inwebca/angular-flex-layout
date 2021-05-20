@@ -1,10 +1,12 @@
-import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { FormBuilder, FormControl, FormGroup, RequiredValidator, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from '@apollo/client/utilities/observables/Observable';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DriverSurveyChoices, IChoice, IDate, IDriverSurvey, INestedChoice, IQuestion, QuestionPriority, Step } from 'src/models/survey.model';
+import { DriverSurveyChoices, IChoice, IDevelopment, IDriverSurvey, INestedChoice, IQuestion, QuestionPriority, QuestionType, Step } from 'src/models/survey.model';
 import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
 import { SurveyService } from 'src/services/survey.service';
 
@@ -14,13 +16,15 @@ import { SurveyService } from 'src/services/survey.service';
   styleUrls: ['./driver-survey-wizard.component.scss']
 })
 export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
-
+  QuestionTypeEnum = QuestionType;
   driverSurvey: IDriverSurvey;
   form: FormGroup;
   steps: Step[];
   questionsPriority: QuestionPriority[];
 
+  dataLoaded$ = new BehaviorSubject<boolean>(false);
   private readonly destroy$ = new EventEmitter<void>();
+
 
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -43,13 +47,14 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     this.route.paramMap.pipe(
       takeUntil(this.destroy$)
     ).subscribe((param) => {
-      const id = param.get('id') ? Number(param.get('id')) : null;
-      if (id) {
-        this.surveyService.getSurveyChoices(id).subscribe(value => {
-          this.driverSurvey = value;
-          this.steps = this.createSteps(value);
-          this.form = this.createForm(value);
-        });
+      const surveyDriverId = param.get('id') ? Number(param.get('id')) : null;
+      if (surveyDriverId) {
+        this.surveyService.getSurvey(surveyDriverId, 1).valueChanges.subscribe(value => {
+          this.driverSurvey = value.data.driverSurvey;
+          this.steps = this.createSteps(this.driverSurvey);
+          this.form = this.createForm(this.driverSurvey);
+          this.dataLoaded$.next(true);
+        })
       }
     });
   }
@@ -63,9 +68,8 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
       question => ({
         questionId: question.id,
         label: question.label,
+        requiredSequence: question.requiredSequence,
         questionType: question.questionType,
-        questionIsMultiple: question.multipleanswer,
-        priority: question.priority,
       } as Step));
 
     steps.forEach((step, index) => {
@@ -83,34 +87,69 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     const group: any = {};
 
     questions.forEach(question => {
-      switch (question.questionType) {
-        case 'Date': {
-          const choice = question as IDate;
+
+      const questionType = question.questionType.toString();
+
+      switch (questionType) {
+        case QuestionType.DEVELOPMENT.toString(): {
+          const choice = question as IDevelopment;
           group[question.id] = this.fb.group({
-            selectedDate: new FormControl(choice.date, Validators.required),
-            type: 'Date'
+            selectedChoice: new FormControl(choice.selectedChoice, Validators.required),
+            type: QuestionType.DEVELOPMENT,
+            dataType: choice.questionDataType
           });
           break;
         }
-        case 'Choice': {
+        case QuestionType.CHOICE.toString(): {
           const choice = question as IChoice;
           group[question.id] = this.fb.group({
-            selectedAnswers: new FormControl(choice.selectedAnswers, Validators.required),
-            displayedAnswers: [choice.displayedAnswers],
-            type: 'Choice'
+            selectedChoices: new FormControl(choice.selectedChoices, Validators.required),
+            displayedChoices: [choice.displayedChoices],
+            type: QuestionType.CHOICE,
+            multipleAnswer: choice.mulipleAnswer
           });
           break;
         }
-        case 'NestedChoice': {
+        case QuestionType.NESTEDCHOICE: {
           const nestedChoice = question as INestedChoice;
           group[question.id] = this.fb.group({
-            selectedAnswers: new FormControl(nestedChoice.selectedAnswers, Validators.required),
-            displayedAnswers: [nestedChoice.displayedAnswers],
-            type: 'NestedChoice'
+            selectedChoices: new FormControl(nestedChoice.selectedChoices, Validators.required),
+            displayedChoices: [nestedChoice.displayedChoices],
+            type: QuestionType.NESTEDCHOICE
           });
           break;
         }
       }
+
+
+      // switch (question.questionType) {
+      //   // case QuestionType.DEVELOPMENT: {
+      //   //   const choice = question as IDevelopment;
+      //   //   group[question.id] = this.fb.group({
+      //   //     selectedDate: new FormControl(choice.date, Validators.required),
+      //   //     type: 'Date'
+      //   //   });
+      //   //   break;
+      //   // }
+      //   case QuestionType.CHOICE.toString(): {
+      //     const choice = question as IChoice;
+      //     group[question.id] = this.fb.group({
+      //       selectedAnswers: new FormControl(choice.selectedChoices, Validators.required),
+      //       displayedAnswers: [choice.displayedChoices],
+      //       type: QuestionType.CHOICE
+      //     });
+      //     break;
+      //   }
+      //   case QuestionType.NESTEDCHOICE: {
+      //     const nestedChoice = question as INestedChoice;
+      //     group[question.id] = this.fb.group({
+      //       selectedAnswers: new FormControl(nestedChoice.selectedChoices, Validators.required),
+      //       displayedAnswers: [nestedChoice.displayedChoices],
+      //       type: QuestionType.NESTEDCHOICE
+      //     });
+      //     break;
+      //   }
+      // }
     });
     return group;
   }
@@ -135,13 +174,13 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
 
     Object.keys(this.form.value).forEach(key => {
       const value = this.form.controls[key].get('selectedAnswers')?.value as number[];
-      if(value){
+      if (value) {
         selectedAnswersValues = value.reduce((prev, current) => prev.concat(current), selectedAnswersValues)
       }
     });
 
     console.log(selectedAnswersValues);
-    
+
     return selectedAnswersValues;
   }
 }

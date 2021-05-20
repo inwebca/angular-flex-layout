@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DriverSurvey } from 'src/models/survey.model';
+import { IDriverSurvey } from 'src/models/survey.model';
 import { SurveyService } from 'src/services/survey.service';
 
 
@@ -14,7 +14,7 @@ import { SurveyService } from 'src/services/survey.service';
 })
 export class DriverSurveyCardsComponent implements OnInit {
 
-  surveys: DriverSurvey[];
+  surveys: IDriverSurvey[];
 
   constructor(
     private surveyService: SurveyService, 
@@ -28,14 +28,6 @@ export class DriverSurveyCardsComponent implements OnInit {
     ).subscribe(surveys => {
       this.surveys = surveys;
     })
-
-  //  const test  = this.surveyService.getSurveys().pipe(
-  //    map(result => result.data.driverSurveysSearch)
-  //  );
-
-  //  test.subscribe(val=>{
-  //    console.log(val);
-  //  })
   }
 
   goToSurvey(surveyId:number){

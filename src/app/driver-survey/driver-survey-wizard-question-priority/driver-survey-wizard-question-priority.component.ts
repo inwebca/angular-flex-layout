@@ -15,21 +15,21 @@ export class DriverSurveyWizardQuestionPriorityComponent implements OnInit {
   constructor(private eventService: DriverSurveyEventService) { }
 
   ngOnInit(): void {
-    this.questionsPriority = this.setQuestionsPriority();
+    //this.questionsPriority = this.setQuestionsPriority();
     this.eventService.changeQuestionPriority(this.questionsPriority);
   }
 
-  setQuestionsPriority() : QuestionPriority[]{
-    const questions =  this.steps.map(x => ({
-      id: x.questionId,
-      priority: x.priority,
-      label: x.label
-    }) as QuestionPriority).filter(x => {
-      return !(x.label.includes("Day") || x.label.includes("Hour"));
-    })
+  // setQuestionsPriority() : QuestionPriority[]{
+  //   const questions =  this.steps.map(x => ({
+  //     id: x.questionId,
+  //     priority: x.priority,
+  //     label: x.label
+  //   }) as QuestionPriority).filter(x => {
+  //     return !(x.label.includes("Day") || x.label.includes("Hour"));
+  //   })
     
-    return questions.sort((a, b) => (a.priority > b.priority) ? 1 : -1);
-  }
+  //   return questions.sort((a, b) => (a.priority > b.priority) ? 1 : -1);
+  // }
 
   reorder(selectedValue: any, up: boolean): void {
     if (selectedValue === null) {

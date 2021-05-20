@@ -12,21 +12,22 @@ import { MatFormFieldControl } from "@angular/material/form-field";
 export class DriverSurveyWizardChoiceComponent implements OnInit {
 
   @Input() questionLabel: string;
-  @Input() isMultiple: boolean;
   @Input() groupName: number;
   @Input() parent : FormGroup;
 
   public formGroup: FormGroup;
   public displayedAnswers: Answer[];
   public selectedAnswers: number[];
+  public isMultiple: boolean;
   public selectedAnswersFormControl: FormControl;
 
   constructor() { }
 
   ngOnInit(): void {
     this.formGroup = this.parent.get(this.groupName.toString()) as FormGroup;
-    this.displayedAnswers = this.formGroup.get('displayedAnswers')?.value as Answer[];
-    this.selectedAnswers = this.formGroup.get('selectedAnswers')?.value as number[];
-    this.selectedAnswersFormControl = this.formGroup.get('selectedAnswers') as FormControl;
+    this.displayedAnswers = this.formGroup.get('displayedChoices')?.value as Answer[];
+    this.selectedAnswers = this.formGroup.get('selectedChoices')?.value as number[];
+    this.isMultiple = this.formGroup.get('multipleAnswer')?.value as boolean;
+    this.selectedAnswersFormControl = this.formGroup.get('selectedChoices') as FormControl;
   }
 }
