@@ -1,13 +1,13 @@
 <div [formGroup]="parent">
     <div [formGroupName]="groupName">
         <label class="question-label">{{questionLabel}}</label>
-          <mat-selection-list formControlName="selectedAnswers" [multiple]="isMultiple">
-            <mat-list-option *ngFor="let answer of displayedAnswers" [value]="answer.id" checkboxPosition="before">
+          <mat-selection-list formControlName="selectedChoices" [multiple]="isMultiple">
+            <mat-list-option *ngFor="let answer of displayedChoices" [value]="answer.id" checkboxPosition="before">
               {{ answer.label }}
             </mat-list-option>
           </mat-selection-list>
 
-        <mat-error *ngIf="selectedAnswersFormControl.invalid && selectedAnswersFormControl.dirty">
+        <mat-error *ngIf="selectedChoicesFormControl.invalid && selectedChoicesFormControl.dirty">
           champ requis
         </mat-error>
 

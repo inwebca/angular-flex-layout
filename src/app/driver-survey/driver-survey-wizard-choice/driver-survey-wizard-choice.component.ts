@@ -16,18 +16,18 @@ export class DriverSurveyWizardChoiceComponent implements OnInit {
   @Input() parent : FormGroup;
 
   public formGroup: FormGroup;
-  public displayedAnswers: Answer[];
-  public selectedAnswers: number[];
+  public displayedChoices: Answer[];
+  public selectedChoices: number[];
   public isMultiple: boolean;
-  public selectedAnswersFormControl: FormControl;
+  public selectedChoicesFormControl: FormControl;
 
   constructor() { }
 
   ngOnInit(): void {
     this.formGroup = this.parent.get(this.groupName.toString()) as FormGroup;
-    this.displayedAnswers = this.formGroup.get('displayedChoices')?.value as Answer[];
-    this.selectedAnswers = this.formGroup.get('selectedChoices')?.value as number[];
+    this.displayedChoices = this.formGroup.get('displayedChoices')?.value as Answer[];
+    this.selectedChoices = this.formGroup.get('selectedChoices')?.value as number[];
     this.isMultiple = this.formGroup.get('multipleAnswer')?.value as boolean;
-    this.selectedAnswersFormControl = this.formGroup.get('selectedChoices') as FormControl;
+    this.selectedChoicesFormControl = this.formGroup.get('selectedChoices') as FormControl;
   }
 }

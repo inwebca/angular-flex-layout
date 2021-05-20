@@ -1,15 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Answer, NestedAnswer, QuestionPriority, Step } from 'src/models/survey.model';
+import { Answer, NestedAnswer, QuestionPriority, QuestionType, Step } from 'src/models/survey.model';
 import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
-
-// class SurveyChoices {
-//   label: string;
-//   groupName: number;
-//   answers: Answer[];
-//   date: Date;
-//   index: number;
-// }
 
 class SurveyChoices{
   label: string;
@@ -46,37 +38,36 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
 
   createSelectedAnswersTree(): void{
     Object.keys(this.parent.value).forEach((key, index) => {
-
       const group = this.parent.get(key);
       const questionType = group.get('type').value;
     
       switch(questionType){
-        case 'Date': {
+        case QuestionType.DEVELOPMENT: {
           const answer = {
-            answer: group.get('selectedDate').value,
+            answer: group.get('selectedChoice').value,
             label: this.steps.find( x => x.questionId === parseInt(key)).label,
             index: index
           };
           this.surveyChoices = [...this.surveyChoices, answer];
           break;
         }
-        case 'Choice': {
-          const displayedAnswers = group.get('displayedAnswers')?.value as Answer[];
-          const selectedAnswers = group.get('selectedAnswers')?.value as number[];
+        case QuestionType.CHOICE: {
+          const displayedChoices = group.get('displayedChoices')?.value as Answer[];
+          const selectedChoices = group.get('selectedChoices')?.value as number[];
           const answer = {
-              answers:  displayedAnswers.filter(x => selectedAnswers.includes(x.id)),
+              answers:  displayedChoices.filter(x => selectedChoices.includes(x.id)),
               label: this.steps.find( x => x.questionId === parseInt(key)).label,
               index: index
           }
           this.surveyChoices = [...this.surveyChoices, answer];
           break;
         }
-        case 'NestedChoice': {
-          const displayedAnswers = group.get('displayedAnswers')?.value as NestedAnswer[];
-          const selectedAnswers = group.get('selectedAnswers')?.value as number[];
-          const selectedAnswersArr: Answer[] = displayedAnswers.reduce((currentItem: any[], item: NestedAnswer) => [...currentItem, ...item.answers], []);
+        case QuestionType.NESTEDCHOICE: {
+          const displayedChoices = group.get('displayedChoices')?.value as NestedAnswer[];
+          const selectedChoices = group.get('selectedChoices')?.value as number[];
+          const selectedAnswersArr: Answer[] = displayedChoices.reduce((currentItem: any[], item: NestedAnswer) => [...currentItem, ...item.answers], []);
           const answer = {
-            answers:  selectedAnswersArr.filter(x => selectedAnswers.includes(x.id)),
+            answers:  selectedAnswersArr.filter(x => selectedChoices.includes(x.id)),
             label: this.steps.find( x => x.questionId === parseInt(key)).label,
             index: index
           }

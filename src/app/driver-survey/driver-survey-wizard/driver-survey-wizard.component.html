@@ -17,8 +17,7 @@
         [parent]="form"></app-driver-survey-wizard-choice>
       </div>
       <div *ngSwitchCase="QuestionTypeEnum.NESTEDCHOICE">
-        3
-        <!-- <app-driver-survey-wizard-nested-choice [groupName]="step.questionId" [questionLabel]=" step.label" [parent]="form"></app-driver-survey-wizard-nested-choice> -->
+        <app-driver-survey-wizard-nested-choice [groupName]="step.questionId" [questionLabel]=" step.label" [parent]="form"></app-driver-survey-wizard-nested-choice>
       </div>
       <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">
         <button mat-flat-button (click)="stepper.previous()" type="button">Previous</button>
