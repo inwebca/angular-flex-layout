@@ -29,23 +29,4 @@ export class DriverSurveyWizardChoiceComponent implements OnInit {
     this.selectedAnswers = this.formGroup.get('selectedAnswers')?.value as number[];
     this.selectedAnswersFormControl = this.formGroup.get('selectedAnswers') as FormControl;
   }
-
-  onCheckboxChange(checked: boolean, answerId: number){
-    if (checked) {
-      this.selectedAnswers.push(answerId);
-    } else {
-      const index = this.selectedAnswers.indexOf(answerId);
-      if (index > -1) {
-        this.selectedAnswers.splice(index, 1);
-      }
-    }
-    this.formGroup.get('selectedAnswers')?.setValue(this.selectedAnswers);
-  }
-
-  public onRadioButtonChange(control: MatRadioButton): void {
-    this.selectedAnswers = [];
-    this.selectedAnswers.push(control.value);
-    this.formGroup.get('selectedAnswers')?.setValue(this.selectedAnswers);
-  }
-
 }

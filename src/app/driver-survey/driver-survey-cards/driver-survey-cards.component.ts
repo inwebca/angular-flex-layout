@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { ISurvey } from 'src/models/survey.model';
+import { map } from 'rxjs/operators';
+import { DriverSurvey } from 'src/models/survey.model';
 import { SurveyService } from 'src/services/survey.service';
+
 
 @Component({
   selector: 'app-driver-survey-cards',
@@ -11,7 +14,7 @@ import { SurveyService } from 'src/services/survey.service';
 })
 export class DriverSurveyCardsComponent implements OnInit {
 
-  surveys$: Observable<ISurvey[]>;
+  surveys: DriverSurvey[];
 
   constructor(
     private surveyService: SurveyService, 
@@ -19,7 +22,20 @@ export class DriverSurveyCardsComponent implements OnInit {
     ){}
 
   ngOnInit(): void{
-    this.surveys$ = this.surveyService.getSurveys();
+
+    this.surveyService.getSurveys().valueChanges.pipe(
+      map(result => result.data.driverSurveysSearch)
+    ).subscribe(surveys => {
+      this.surveys = surveys;
+    })
+
+  //  const test  = this.surveyService.getSurveys().pipe(
+  //    map(result => result.data.driverSurveysSearch)
+  //  );
+
+  //  test.subscribe(val=>{
+  //    console.log(val);
+  //  })
   }
 
   goToSurvey(surveyId:number){

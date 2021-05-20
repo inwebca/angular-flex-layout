@@ -15,7 +15,7 @@ import { SurveyService } from 'src/services/survey.service';
 })
 export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
 
-  surveyChoices: IDriverSurvey;
+  driverSurvey: IDriverSurvey;
   form: FormGroup;
   steps: Step[];
   questionsPriority: QuestionPriority[];
@@ -46,9 +46,9 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
       const id = param.get('id') ? Number(param.get('id')) : null;
       if (id) {
         this.surveyService.getSurveyChoices(id).subscribe(value => {
-          this.surveyChoices = value;
-          this.createSteps(value);
-          this.createForm(value);
+          this.driverSurvey = value;
+          this.steps = this.createSteps(value);
+          this.form = this.createForm(value);
         });
       }
     });
@@ -58,8 +58,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  createSteps(formValues: IDriverSurvey): void {
-
+  createSteps(formValues: IDriverSurvey): Step[] {
     const steps = formValues.questions.map(
       question => ({
         questionId: question.id,
@@ -73,12 +72,11 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
       step.index = index;
     });
 
-    this.steps = steps;
-
+    return steps;
   }
 
-  createForm(formValues: IDriverSurvey): void {
-    this.form = new FormGroup(this.createFormGroups(formValues.questions));
+  createForm(formValues: IDriverSurvey): FormGroup {
+    return new FormGroup(this.createFormGroups(formValues.questions));
   }
 
   createFormGroups(questions: IQuestion[]): any {
@@ -122,7 +120,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     console.log(this.form.valid);
 
     const driverSurveyChoices = {
-      surveyDriverId: this.surveyChoices.surveyDriverId,
+      surveyDriverId: this.driverSurvey.surveyDriverId,
       answers: this.getFormValues(),
       questionPriority: this.questionsPriority
     } as DriverSurveyChoices;
@@ -138,9 +136,11 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     Object.keys(this.form.value).forEach(key => {
       const value = this.form.controls[key].get('selectedAnswers')?.value as number[];
       if(value){
-        selectedAnswersValues = [...selectedAnswersValues, ...value]
+        selectedAnswersValues = value.reduce((prev, current) => prev.concat(current), selectedAnswersValues)
       }
     });
+
+    console.log(selectedAnswersValues);
     
     return selectedAnswersValues;
   }

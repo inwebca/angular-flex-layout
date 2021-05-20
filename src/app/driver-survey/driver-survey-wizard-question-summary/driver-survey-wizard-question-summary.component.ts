@@ -56,8 +56,9 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
             answer: group.get('selectedDate').value,
             label: this.steps.find( x => x.questionId === parseInt(key)).label,
             index: index
-          }
-          return this.surveyChoices.push(answer);
+          };
+          this.surveyChoices = [...this.surveyChoices, answer];
+          break;
         }
         case 'Choice': {
           const displayedAnswers = group.get('displayedAnswers')?.value as Answer[];
@@ -67,7 +68,8 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
               label: this.steps.find( x => x.questionId === parseInt(key)).label,
               index: index
           }
-          return this.surveyChoices.push(answer);
+          this.surveyChoices = [...this.surveyChoices, answer];
+          break;
         }
         case 'NestedChoice': {
           const displayedAnswers = group.get('displayedAnswers')?.value as NestedAnswer[];
@@ -78,10 +80,8 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
             label: this.steps.find( x => x.questionId === parseInt(key)).label,
             index: index
           }
-          return this.surveyChoices.push(answer);
-        }
-        default: {
-          return null;
+          this.surveyChoices = [...this.surveyChoices, answer];
+          break;
         }
       }
     });

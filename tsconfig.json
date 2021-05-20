@@ -19,8 +19,11 @@
     "module": "esnext",
     "lib": [
       "es2018",
-      "dom"
-    ]
+      "dom",
+      "esnext.asynciterable"
+    ],
+    "allowSyntheticDefaultImports": true
+
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

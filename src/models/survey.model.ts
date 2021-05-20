@@ -7,10 +7,18 @@ export class Step {
     index: number;
   }
 
-export interface ISurvey {
-    id: number,
-    days: string,
-    date: string
+export interface DriverSurvey {
+  surveyDriverId: number
+  driverEmployeId: number
+  startDate: String
+  endDate: String
+  labelDate: String
+  labelDay: String
+  hasGrief: Boolean
+}
+
+export interface DriverSurveyResponse {
+  driverSurveysSearch: DriverSurvey[];
 }
 
 export interface IDriverSurvey {

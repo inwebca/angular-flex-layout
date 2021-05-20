@@ -1,31 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
-import { Answer, IChoice, IDate, IDriverSurvey, INestedChoice, IQuestion, ISurvey } from "../models/survey.model";
+import { DriverSurveyResponse, IChoice, IDate, IDriverSurvey, INestedChoice } from "../models/survey.model";
+import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { ApolloQueryResult } from '@apollo/client/core';
+
+
+const GET_SURVEYS = gql`
+query {
+  driverSurveysSearch {
+    surveyDriverId,
+    labelDay,
+    labelDate
+  }
+}
+`;
 
 @Injectable({
     providedIn: "root"
 })
 
 export class SurveyService {
-    public getSurveys(): Observable<ISurvey[]> {
-        let surveys: Array<ISurvey> = [
-            {
-                id: 1,
-                date: 'From March 12 to March 14 2021',
-                days: 'Saturday to Monday'
-            },
-            {
-                id: 2,
-                date: 'From June 12 to June 14 2021',
-                days: 'Saturday to Monday'
-            },
-            {
-                id: 3,
-                date: 'From June 12 to June 14 2021',
-                days: 'Saturday to Monday'
-            }
-        ]
-        return of(surveys);
+
+    constructor(private apollo: Apollo) {}
+
+    public getSurveys(): QueryRef<DriverSurveyResponse>  {
+
+      return this.apollo.watchQuery<DriverSurveyResponse>({
+        query: GET_SURVEYS
+      });
+
+
     }
 
     public getSurveyChoices(id: number): Observable<IDriverSurvey> {

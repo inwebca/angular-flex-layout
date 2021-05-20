@@ -1,14 +1,14 @@
 <div fxLayout="row" fxLayoutAlign="left center" fxLayoutGap="20px" class="container">
-    <mat-card *ngFor="let survey of surveys$ | async" class="card" fxFlex="33%">
+    <mat-card *ngFor="let survey of surveys" class="card" fxFlex="33%">
         <mat-card-header>
             <mat-card-title>Driver's criteria for departure on:</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <p>Day: {{survey.days}}</p>
-            <p>Date: {{survey.date}}</p>
+            <p>Day: {{survey.labelDay}}</p>
+            <p>Date: {{survey.labelDate}}</p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-flat-button color="primary" (click)="goToSurvey(survey.id)">Go to survey</button>
+            <button mat-flat-button color="primary" (click)="goToSurvey(survey.surveyDriverId)">Go to survey</button>
         </mat-card-actions>
     </mat-card>
-</div>
+</div> 
