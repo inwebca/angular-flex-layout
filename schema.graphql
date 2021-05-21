@@ -1,0 +1,96 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: Query
+}
+
+interface Question {
+  id: Int!
+  label: String!
+  questionType: QuestionType!
+  requiredSequence: Int
+  title: String!
+}
+
+type Choice implements Question {
+  displayedChoices: [DisplayedChoice!]
+  id: Int!
+  label: String!
+  multipleAnswer: Boolean!
+  questionType: QuestionType!
+  requiredSequence: Int
+  selectedChoices: [Int]
+  title: String!
+}
+
+type Development implements Question {
+  id: Int!
+  label: String!
+  questionDataType: QuestionDataType!
+  questionType: QuestionType!
+  requiredSequence: Int
+  selectedChoice: String
+  title: String!
+}
+
+type DisplayedChoice {
+  id: Int!
+  label: String!
+  priority: Int
+}
+
+type DriverSurvey {
+  driverEmployeeId: Int
+  endDate: String
+  hasGrief: Boolean
+  labelDate: String
+  labelDay: String
+  questions: [Question!]
+  startDate: String
+  surveyDriverId: Int!
+}
+
+type NestedChoice implements Question {
+  allSelected: Boolean!
+  displayedChoices: [NestedDisplayedChoice!]
+  id: Int!
+  label: String!
+  questionType: QuestionType!
+  requiredSequence: Int
+  selectedChoices: [Int]
+  title: String!
+}
+
+type NestedDisplayedChoice {
+  choices: [DisplayedChoice!]
+  idGroup: Int!
+  label: String!
+  showGroupOnly: Boolean
+}
+
+type Query {
+  driverSurvey(languageId: Int!, surveyDriverId: Int!): DriverSurvey
+  driverSurveysSearch: [DriverSurvey]
+}
+
+enum CacheControlScope {
+  PRIVATE
+  PUBLIC
+}
+
+enum QuestionDataType {
+  BOOLEAN
+  DATE
+  NUMBER
+  STRING
+}
+
+enum QuestionType {
+  CHOICE
+  DEVELOPMENT
+  NESTEDCHOICE
+}
+
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload

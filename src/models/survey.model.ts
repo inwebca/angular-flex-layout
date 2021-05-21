@@ -1,3 +1,5 @@
+import {QuestionDataType, QuestionType} from '../app/generatedgraphql/graphql-types';
+
 export class Step {
   questionId: number;
   label: string;
@@ -103,15 +105,3 @@ export class DevelopmentAnswer {
   selectedChoice: string;
 }
 
-export enum QuestionType {
-  DEVELOPMENT = 'DEVELOPMENT',
-  CHOICE = 'CHOICE',
-  NESTEDCHOICE = 'NESTEDCHOICE'
-}
-
-export enum QuestionDataType {
-  DATE = 'DATE',
-  STRING = 'STRING',
-  NUMBER = 'NUMBER',
-  BOOLEAN = 'BOOLEAN',
-}

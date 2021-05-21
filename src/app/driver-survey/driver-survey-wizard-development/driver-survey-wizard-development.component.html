@@ -2,7 +2,7 @@
   <div [formGroupName]="groupName">
 
     <div [ngSwitch]="dataType">
-      <div *ngSwitchCase="dataTypeEnum.DATE">
+      <div *ngSwitchCase="dataTypeEnum.Date">
         <mat-form-field>
           <mat-label>{{questionLabel}}</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="selectedChoice">
@@ -10,7 +10,7 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
-      <div *ngSwitchCase="dataTypeEnum.STRING">
+      <div *ngSwitchCase="dataTypeEnum.String">
         <mat-form-field>
           <mat-label>{{questionLabel}}</mat-label>
           <input matInput placeholder="Ex. Pizza" value="Sushi" formControlName="selectedChoice">

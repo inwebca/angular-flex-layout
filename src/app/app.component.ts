@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { SurveyService } from '../services/survey.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',

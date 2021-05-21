@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {QuestionDataType} from '../../../models/survey.model';
+import {QuestionDataType} from '../../generatedgraphql/graphql-types';
 
 @Component({
   selector: 'app-driver-survey-wizard-development',
@@ -28,7 +28,7 @@ export class DriverSurveyWizardDevelopmentComponent implements OnInit {
 
 
     switch(this.dataType){
-      case this.dataTypeEnum.DATE: {
+      case this.dataTypeEnum.Date: {
 
         this.selectedChoice = new Date(selectedChoice);
         break;

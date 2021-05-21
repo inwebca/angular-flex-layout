@@ -3,9 +3,8 @@ import { MediaObserver } from '@angular/flex-layout';
 import { FormBuilder, FormControl, FormGroup, RequiredValidator, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from '@apollo/client/utilities/observables/Observable';
-import {BehaviorSubject, identity, Subject} from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {BehaviorSubject, identity, of, Subject, Observable} from 'rxjs';
+import {map, takeUntil} from 'rxjs/operators';
 import {
   DevelopmentAnswer,
   DriverSurveyChoices,
@@ -15,11 +14,13 @@ import {
   INestedChoice,
   IQuestion,
   QuestionPriority,
-  QuestionType,
   Step
 } from 'src/models/survey.model';
 import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
-import { SurveyService } from 'src/services/survey.service';
+import {QueryRef} from 'apollo-angular';
+import {subscribe} from 'graphql';
+import {GetDriverSurveyQuery, GriGraphqlService} from '../../generatedgraphql/graphql-services';
+import {DriverSurvey, Question, QuestionType} from '../../generatedgraphql/graphql-types';
 
 @Component({
   selector: 'app-driver-survey-choices',
@@ -27,8 +28,12 @@ import { SurveyService } from 'src/services/survey.service';
   styleUrls: ['./driver-survey-wizard.component.scss']
 })
 export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
+
+  survey$: Observable<DriverSurvey>;
+  queryRef: QueryRef<GetDriverSurveyQuery>;
+
   QuestionTypeEnum = QuestionType;
-  driverSurvey: IDriverSurvey;
+  driverSurvey: DriverSurvey;
   form: FormGroup;
   steps: Step[];
   questionsPriority: QuestionPriority[];
@@ -40,12 +45,13 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
   @ViewChild('stepper') stepper: MatStepper;
 
   constructor(private route: ActivatedRoute,
-              private surveyService: SurveyService,
+              private readonly gql: GriGraphqlService,
               private fb: FormBuilder,
               private eventService: DriverSurveyEventService,
               private mediaObserver: MediaObserver) { }
 
   ngOnInit(): void {
+
 
     this.eventService.step.subscribe((stepIndex: number) => {
       this.stepper.selectedIndex = stepIndex;
@@ -60,8 +66,11 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     ).subscribe((param) => {
       const surveyDriverId = param.get('id') ? Number(param.get('id')) : null;
       if (surveyDriverId) {
-        this.surveyService.getSurvey(surveyDriverId, 1).valueChanges.subscribe(value => {
-          this.driverSurvey = value.data.driverSurvey;
+
+        this.survey$ = this.gql.getDriverSurvey({surveyDriverId, languageId: 1}).pipe(map(x => x.data.driverSurvey));
+
+        this.survey$.subscribe(value => {
+          this.driverSurvey = value;
           this.steps = this.createSteps(this.driverSurvey);
           this.form = this.createForm(this.driverSurvey);
           this.dataLoaded$.next(true);
@@ -74,13 +83,13 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  createSteps(formValues: IDriverSurvey): Step[] {
+  createSteps(formValues: DriverSurvey): Step[] {
     const steps = formValues.questions.map(
       question => ({
         questionId: question.id,
-        label: question.label,
+        label: question.title,
         requiredSequence: question.requiredSequence,
-        questionType: question.questionType,
+        questionType: question.questionType
       } as Step));
 
     steps.forEach((step, index) => {
@@ -90,11 +99,11 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
     return steps;
   }
 
-  createForm(formValues: IDriverSurvey): FormGroup {
+  createForm(formValues: DriverSurvey): FormGroup {
     return new FormGroup(this.createFormGroups(formValues.questions));
   }
 
-  createFormGroups(questions: IQuestion[]): any {
+  createFormGroups(questions: Question[]): any {
     const group: any = {};
 
     questions.forEach(question => {
@@ -102,31 +111,31 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
       const questionType = question.questionType.toString();
 
       switch (questionType) {
-        case QuestionType.DEVELOPMENT.toString(): {
+        case QuestionType.Development.toString(): {
           const choice = question as IDevelopment;
           group[question.id] = this.fb.group({
             selectedChoice: new FormControl(choice.selectedChoice, Validators.required),
-            type: QuestionType.DEVELOPMENT,
+            type: QuestionType.Development,
             dataType: choice.questionDataType
           });
           break;
         }
-        case QuestionType.CHOICE.toString(): {
+        case QuestionType.Choice.toString(): {
           const choice = question as IChoice;
           group[question.id] = this.fb.group({
             selectedChoices: new FormControl(choice.selectedChoices, Validators.required),
             displayedChoices: [choice.displayedChoices],
-            type: QuestionType.CHOICE,
+            type: QuestionType.Choice,
             multipleAnswer: choice.multipleAnswer
           });
           break;
         }
-        case QuestionType.NESTEDCHOICE: {
+        case QuestionType.Nestedchoice: {
           const nestedChoice = question as INestedChoice;
           group[question.id] = this.fb.group({
             selectedChoices: new FormControl(nestedChoice.selectedChoices, Validators.required),
             displayedChoices: [nestedChoice.displayedChoices],
-            type: QuestionType.NESTEDCHOICE
+            type: QuestionType.Nestedchoice
           });
           break;
         }
@@ -138,7 +147,6 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
   submitSurvey(): void {
 
     console.log(this.form.valid);
-    debugger;
     const driverSurveyChoices = {
       surveyDriverId: this.driverSurvey.surveyDriverId,
       answers: this.getAnswersValues(),

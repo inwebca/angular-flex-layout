@@ -6,16 +6,16 @@
   <mat-horizontal-stepper #stepper labelPosition="bottom">
     <mat-step *ngFor="let step of steps;" [ngSwitch]="step.questionType">
       <ng-template matStepLabel>{{step.label}}</ng-template>
-      <div *ngSwitchCase="QuestionTypeEnum.DEVELOPMENT">
+      <div *ngSwitchCase="QuestionTypeEnum.Development">
         <app-driver-survey-wizard-development  [groupName]="step.questionId" [parent]="form" [questionLabel]=" step.label"></app-driver-survey-wizard-development>
       </div>
-      <div *ngSwitchCase="QuestionTypeEnum.CHOICE">
+      <div *ngSwitchCase="QuestionTypeEnum.Choice">
          <app-driver-survey-wizard-choice
         [questionLabel]="step.label"
         [groupName]="step.questionId"
         [parent]="form"></app-driver-survey-wizard-choice>
       </div>
-      <div *ngSwitchCase="QuestionTypeEnum.NESTEDCHOICE">
+      <div *ngSwitchCase="QuestionTypeEnum.Nestedchoice">
         <app-driver-survey-wizard-nested-choice [groupName]="step.questionId" [questionLabel]=" step.label" [parent]="form"></app-driver-survey-wizard-nested-choice>
       </div>
       <div fxLayout="row" fxLayoutAlign="end" class="buttons-container">

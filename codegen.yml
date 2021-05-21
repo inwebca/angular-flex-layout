@@ -1,0 +1,35 @@
+schema: http://localhost:4000/graphql
+generates:
+  ./src/app/generatedgraphql/graphql-types.ts:
+    plugins:
+      - typescript
+    hooks:
+      afterAllFileWrite:
+        - tslint --fix
+  ./src/app/generatedgraphql/graphql-services.ts:
+    documents: ./src/app/graphql/**/*.graphql
+    preset: import-types
+    presetConfig:
+      typesPath: ./graphql-types
+    plugins:
+      - typescript-operations
+      - typescript-apollo-angular
+    hooks:
+      afterAllFileWrite:
+        - tslint -fx
+config:
+  scalars:
+    DateTime: string
+    Short: number
+    MultiplierPath: string
+    PaginationAmount: number
+    Decimal: number
+    Byte: number
+  declarationKind:
+      scalar: 'interface'
+      input: 'interface'
+      type: 'interface'
+      interface: 'interface'
+      arguments: 'interface'
+  sdkClass: true
+  serviceName: 'GriGraphqlService'

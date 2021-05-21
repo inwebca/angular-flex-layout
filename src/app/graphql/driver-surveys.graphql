@@ -1,0 +1,7 @@
+query GetDriverSurveys{
+  driverSurveysSearch{
+    surveyDriverId,
+    labelDate,
+    labelDay
+  }
+}

@@ -1,0 +1,39 @@
+query GetDriverSurvey($surveyDriverId: Int!, $languageId: Int!){
+  driverSurvey(surveyDriverId: $surveyDriverId, languageId: $languageId){
+    surveyDriverId,
+    questions{
+      id,
+      title,
+      label,
+      requiredSequence
+      questionType
+      ... on Development{
+        questionDataType,
+        selectedChoice
+      },
+      ... on Choice{
+        multipleAnswer,
+        selectedChoices,
+        displayedChoices {
+          id
+          label
+          priority
+        }
+      },
+      ... on NestedChoice{
+        allSelected,
+        selectedChoices,
+        displayedChoices {
+          idGroup,
+          label,
+          showGroupOnly,
+          choices{
+            id,
+            label,
+            priority
+          }
+        }
+      }
+    }
+  }
+}

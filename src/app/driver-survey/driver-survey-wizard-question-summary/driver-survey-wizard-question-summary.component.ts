@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DisplayedChoice, NestedDisplayedChoice, QuestionPriority, QuestionType, Step } from 'src/models/survey.model';
+import { DisplayedChoice, NestedDisplayedChoice, QuestionPriority, Step } from 'src/models/survey.model';
 import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
+import {QuestionType} from '../../generatedgraphql/graphql-types';
 
 class SurveyChoices{
   label: string;
@@ -42,7 +43,7 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
       const questionType = group.get('type').value;
 
       switch(questionType){
-        case QuestionType.DEVELOPMENT: {
+        case QuestionType.Development: {
           const answer = {
             answer: group.get('selectedChoice').value,
             label: this.steps.find( x => x.questionId === parseInt(key)).label,
@@ -51,7 +52,7 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
           this.surveyChoices = [...this.surveyChoices, answer];
           break;
         }
-        case QuestionType.CHOICE: {
+        case QuestionType.Choice: {
           const displayedChoices = group.get('displayedChoices')?.value as DisplayedChoice[];
           const selectedChoices = group.get('selectedChoices')?.value as number[];
           const answer = {
@@ -62,7 +63,7 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
           this.surveyChoices = [...this.surveyChoices, answer];
           break;
         }
-        case QuestionType.NESTEDCHOICE: {
+        case QuestionType.Nestedchoice: {
           const displayedChoices = group.get('displayedChoices')?.value as NestedDisplayedChoice[];
           const selectedChoices = group.get('selectedChoices')?.value as number[];
           const selectedAnswersArr: DisplayedChoice[] = displayedChoices.reduce((currentItem: any[], item: NestedDisplayedChoice) => [...currentItem, ...item.choices], []);

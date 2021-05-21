@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Apollo, gql } from 'apollo-angular';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IDriverSurvey } from 'src/models/survey.model';
-import { SurveyService } from 'src/services/survey.service';
-
+import {Observable, of} from 'rxjs';
+import {QueryRef} from 'apollo-angular';
+import { GetDriverSurveysQuery, GriGraphqlService} from '../../generatedgraphql/graphql-services';
+import {DriverSurvey} from '../../generatedgraphql/graphql-types';
 
 @Component({
   selector: 'app-driver-survey-cards',
@@ -14,23 +13,24 @@ import { SurveyService } from 'src/services/survey.service';
 })
 export class DriverSurveyCardsComponent implements OnInit {
 
-  surveys: IDriverSurvey[];
+  surveys: DriverSurvey[];
+  surveysObs$: Observable<DriverSurvey[]>;
+  queryRef: QueryRef<GetDriverSurveysQuery>;
 
   constructor(
-    private surveyService: SurveyService, 
     private router: Router,
+    private readonly gql: GriGraphqlService
     ){}
 
   ngOnInit(): void{
+    this.surveysObs$ = this.gql.getDriverSurveys().pipe(map(value => value.data.driverSurveysSearch));
 
-    this.surveyService.getSurveys().valueChanges.pipe(
-      map(result => result.data.driverSurveysSearch)
-    ).subscribe(surveys => {
-      this.surveys = surveys;
-    })
+    this.surveysObs$.subscribe(value => {
+      this.surveys = value;
+    });
   }
 
-  goToSurvey(surveyId:number){
+  goToSurvey(surveyId: number): void{
     this.router.navigate(['/driver-survey/survey-choices', surveyId]);
   }
 }
