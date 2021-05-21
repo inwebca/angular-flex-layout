@@ -4,9 +4,20 @@ import { FormBuilder, FormControl, FormGroup, RequiredValidator, Validators } fr
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from '@apollo/client/utilities/observables/Observable';
-import { BehaviorSubject, Subject } from 'rxjs';
+import {BehaviorSubject, identity, Subject} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DriverSurveyChoices, IChoice, IDevelopment, IDriverSurvey, INestedChoice, IQuestion, QuestionPriority, QuestionType, Step } from 'src/models/survey.model';
+import {
+  DevelopmentAnswer,
+  DriverSurveyChoices,
+  IChoice,
+  IDevelopment,
+  IDriverSurvey,
+  INestedChoice,
+  IQuestion,
+  QuestionPriority,
+  QuestionType,
+  Step
+} from 'src/models/survey.model';
 import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
 import { SurveyService } from 'src/services/survey.service';
 
@@ -29,10 +40,10 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
   @ViewChild('stepper') stepper: MatStepper;
 
   constructor(private route: ActivatedRoute,
-    private surveyService: SurveyService,
-    private fb: FormBuilder,
-    private eventService: DriverSurveyEventService,
-    private mediaObserver: MediaObserver) { }
+              private surveyService: SurveyService,
+              private fb: FormBuilder,
+              private eventService: DriverSurveyEventService,
+              private mediaObserver: MediaObserver) { }
 
   ngOnInit(): void {
 
@@ -54,7 +65,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
           this.steps = this.createSteps(this.driverSurvey);
           this.form = this.createForm(this.driverSurvey);
           this.dataLoaded$.next(true);
-        })
+        });
       }
     });
   }
@@ -106,7 +117,7 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
             selectedChoices: new FormControl(choice.selectedChoices, Validators.required),
             displayedChoices: [choice.displayedChoices],
             type: QuestionType.CHOICE,
-            multipleAnswer: choice.mulipleAnswer
+            multipleAnswer: choice.multipleAnswer
           });
           break;
         }
@@ -120,68 +131,56 @@ export class DriverSurveyWizardComponent implements OnInit, OnDestroy {
           break;
         }
       }
-
-
-      // switch (question.questionType) {
-      //   // case QuestionType.DEVELOPMENT: {
-      //   //   const choice = question as IDevelopment;
-      //   //   group[question.id] = this.fb.group({
-      //   //     selectedDate: new FormControl(choice.date, Validators.required),
-      //   //     type: 'Date'
-      //   //   });
-      //   //   break;
-      //   // }
-      //   case QuestionType.CHOICE.toString(): {
-      //     const choice = question as IChoice;
-      //     group[question.id] = this.fb.group({
-      //       selectedAnswers: new FormControl(choice.selectedChoices, Validators.required),
-      //       displayedAnswers: [choice.displayedChoices],
-      //       type: QuestionType.CHOICE
-      //     });
-      //     break;
-      //   }
-      //   case QuestionType.NESTEDCHOICE: {
-      //     const nestedChoice = question as INestedChoice;
-      //     group[question.id] = this.fb.group({
-      //       selectedAnswers: new FormControl(nestedChoice.selectedChoices, Validators.required),
-      //       displayedAnswers: [nestedChoice.displayedChoices],
-      //       type: QuestionType.NESTEDCHOICE
-      //     });
-      //     break;
-      //   }
-      // }
     });
     return group;
   }
 
-  submitSurvey() {
+  submitSurvey(): void {
 
     console.log(this.form.valid);
-
+    debugger;
     const driverSurveyChoices = {
       surveyDriverId: this.driverSurvey.surveyDriverId,
-      answers: this.getFormValues(),
+      answers: this.getAnswersValues(),
+      developmentAnswers: this.getDevelopmentAnswersValues(),
       questionPriority: this.questionsPriority
     } as DriverSurveyChoices;
 
     console.log(driverSurveyChoices);
-    return false;
   }
 
-  getFormValues(): number[] {
+  getAnswersValues(): number[] {
 
     let selectedAnswersValues: number[] = [];
 
     Object.keys(this.form.value).forEach(key => {
-      const value = this.form.controls[key].get('selectedAnswers')?.value as number[];
+      const value = this.form.controls[key].get('selectedChoices')?.value;
       if (value) {
-        selectedAnswersValues = value.reduce((prev, current) => prev.concat(current), selectedAnswersValues)
+        selectedAnswersValues = value.reduce((prev, current) => prev.concat(current), selectedAnswersValues);
       }
     });
 
     console.log(selectedAnswersValues);
 
     return selectedAnswersValues;
+  }
+
+  getDevelopmentAnswersValues(): DevelopmentAnswer[]{
+
+    let selectedDevelopmentAnswersValues: DevelopmentAnswer[] = [];
+
+    Object.keys(this.form.value).forEach(key => {
+      const value = this.form.controls[key].get('selectedChoice')?.value as string;
+      if (value) {
+        const answer: DevelopmentAnswer  = {
+          id: Number(key),
+          selectedChoice: value,
+        };
+
+        selectedDevelopmentAnswersValues = [...selectedDevelopmentAnswersValues, answer];
+      }
+    });
+    return selectedDevelopmentAnswersValues;
   }
 }
 

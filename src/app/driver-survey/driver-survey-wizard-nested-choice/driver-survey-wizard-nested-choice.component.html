@@ -9,7 +9,7 @@
                     </mat-checkbox>
                 </mat-list-item>
                 <mat-list class="margin-left">
-                    <div *ngFor="let nestedAnswer of group.answers">
+                    <div *ngFor="let nestedAnswer of group.choices">
                         <mat-list-option [value]="nestedAnswer.id" checkboxPosition="before" [selected]="nestedAnswer.checked">{{ nestedAnswer.label }}</mat-list-option>
                     </div>
                 </mat-list>
@@ -18,7 +18,7 @@
 
         <mat-error *ngIf="selectedChoicesFormControl.invalid && selectedChoicesFormControl.dirty">
             champ requis
-          </mat-error>   
-    
+          </mat-error>
+
     </div>
 </div>

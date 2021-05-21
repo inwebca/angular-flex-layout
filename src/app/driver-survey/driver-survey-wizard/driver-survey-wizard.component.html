@@ -7,13 +7,12 @@
     <mat-step *ngFor="let step of steps;" [ngSwitch]="step.questionType">
       <ng-template matStepLabel>{{step.label}}</ng-template>
       <div *ngSwitchCase="QuestionTypeEnum.DEVELOPMENT">
-        1
-        <!-- <app-driver-survey-wizard-date  [groupName]="step.questionId" [parent]="form"></app-driver-survey-wizard-date> -->
+        <app-driver-survey-wizard-development  [groupName]="step.questionId" [parent]="form" [questionLabel]=" step.label"></app-driver-survey-wizard-development>
       </div>
       <div *ngSwitchCase="QuestionTypeEnum.CHOICE">
-         <app-driver-survey-wizard-choice 
-        [questionLabel]="step.label" 
-        [groupName]="step.questionId" 
+         <app-driver-survey-wizard-choice
+        [questionLabel]="step.label"
+        [groupName]="step.questionId"
         [parent]="form"></app-driver-survey-wizard-choice>
       </div>
       <div *ngSwitchCase="QuestionTypeEnum.NESTEDCHOICE">
@@ -23,7 +22,6 @@
         <button mat-flat-button (click)="stepper.previous()" type="button">Previous</button>
         <button mat-flat-button color="primary" (click)="stepper.next()" type="button">Next</button>
       </div>
-
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Confirmation</ng-template>

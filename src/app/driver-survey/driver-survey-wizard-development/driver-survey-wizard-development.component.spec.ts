@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DriverSurveyWizardDateComponent } from './driver-survey-wizard-date.component';
+import { DriverSurveyWizardDevelopmentComponent } from './driver-survey-wizard-development.component';
 
 describe('DriverSurveyWizardDateComponent', () => {
-  let component: DriverSurveyWizardDateComponent;
-  let fixture: ComponentFixture<DriverSurveyWizardDateComponent>;
+  let component: DriverSurveyWizardDevelopmentComponent;
+  let fixture: ComponentFixture<DriverSurveyWizardDevelopmentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DriverSurveyWizardDateComponent ]
+      declarations: [ DriverSurveyWizardDevelopmentComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DriverSurveyWizardDateComponent);
+    fixture = TestBed.createComponent(DriverSurveyWizardDevelopmentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

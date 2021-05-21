@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Answer, NestedAnswer, QuestionPriority, QuestionType, Step } from 'src/models/survey.model';
+import { DisplayedChoice, NestedDisplayedChoice, QuestionPriority, QuestionType, Step } from 'src/models/survey.model';
 import { DriverSurveyEventService } from 'src/services/driver-survey-event.service';
 
 class SurveyChoices{
   label: string;
   answer?: any;
-  answers?: Answer[] | NestedAnswer[];
+  answers?: DisplayedChoice[] | NestedDisplayedChoice[];
   index: number;
 }
 
@@ -40,7 +40,7 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
     Object.keys(this.parent.value).forEach((key, index) => {
       const group = this.parent.get(key);
       const questionType = group.get('type').value;
-    
+
       switch(questionType){
         case QuestionType.DEVELOPMENT: {
           const answer = {
@@ -52,7 +52,7 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
           break;
         }
         case QuestionType.CHOICE: {
-          const displayedChoices = group.get('displayedChoices')?.value as Answer[];
+          const displayedChoices = group.get('displayedChoices')?.value as DisplayedChoice[];
           const selectedChoices = group.get('selectedChoices')?.value as number[];
           const answer = {
               answers:  displayedChoices.filter(x => selectedChoices.includes(x.id)),
@@ -63,9 +63,9 @@ export class DriverSurveyWizardQuestionSummaryComponent implements OnInit {
           break;
         }
         case QuestionType.NESTEDCHOICE: {
-          const displayedChoices = group.get('displayedChoices')?.value as NestedAnswer[];
+          const displayedChoices = group.get('displayedChoices')?.value as NestedDisplayedChoice[];
           const selectedChoices = group.get('selectedChoices')?.value as number[];
-          const selectedAnswersArr: Answer[] = displayedChoices.reduce((currentItem: any[], item: NestedAnswer) => [...currentItem, ...item.answers], []);
+          const selectedAnswersArr: DisplayedChoice[] = displayedChoices.reduce((currentItem: any[], item: NestedDisplayedChoice) => [...currentItem, ...item.choices], []);
           const answer = {
             answers:  selectedAnswersArr.filter(x => selectedChoices.includes(x.id)),
             label: this.steps.find( x => x.questionId === parseInt(key)).label,

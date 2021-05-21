@@ -15,21 +15,21 @@ export class DriverSurveyWizardQuestionPriorityComponent implements OnInit {
   constructor(private eventService: DriverSurveyEventService) { }
 
   ngOnInit(): void {
-    //this.questionsPriority = this.setQuestionsPriority();
+    this.questionsPriority = this.setQuestionsPriority();
     this.eventService.changeQuestionPriority(this.questionsPriority);
   }
 
-  // setQuestionsPriority() : QuestionPriority[]{
-  //   const questions =  this.steps.map(x => ({
-  //     id: x.questionId,
-  //     priority: x.priority,
-  //     label: x.label
-  //   }) as QuestionPriority).filter(x => {
-  //     return !(x.label.includes("Day") || x.label.includes("Hour"));
-  //   })
-    
-  //   return questions.sort((a, b) => (a.priority > b.priority) ? 1 : -1);
-  // }
+  setQuestionsPriority(): QuestionPriority[] {
+    const questions = this.steps
+      .filter(x => x.requiredSequence != null)
+      .map(x => ({
+        id: x.questionId,
+        label: x.label,
+        requiredSequence: x.requiredSequence
+      }) as QuestionPriority);
+
+    return questions.sort((a, b) => (a.requiredSequence > b.requiredSequence) ? 1 : -1);
+  }
 
   reorder(selectedValue: any, up: boolean): void {
     if (selectedValue === null) {
@@ -59,7 +59,7 @@ export class DriverSurveyWizardQuestionPriorityComponent implements OnInit {
   updateOrderLabel(): void {
     const arr = this.questionsPriority;
     this.questionsPriority.forEach(x => {
-      x.priority = arr.findIndex(y => y === x) + 1;
+      x.requiredSequence = arr.findIndex(y => y === x) + 1;
     });
   }
 

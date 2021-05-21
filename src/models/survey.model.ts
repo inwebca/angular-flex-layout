@@ -21,19 +21,20 @@ export interface DriverSurveyResponse {
 }
 
 export interface IDriverSurvey {
-  surveyDriverId: number
-  driverEmployeId: number
-  startDate: String
-  endDate: String
-  labelDate: String
-  labelDay: String
-  hasGrief: Boolean,
+  surveyDriverId: number;
+  driverEmployeeId: number;
+  startDate: string;
+  endDate: string;
+  labelDate: string;
+  labelDay: string;
+  hasGrief: boolean;
   questions: IQuestion[];
 }
 
 
 export interface IQuestion {
   id: number;
+  title: string;
   label: string;
   requiredSequence: number;
   questionType: QuestionType;
@@ -41,6 +42,7 @@ export interface IQuestion {
 
 export interface IDevelopment extends IQuestion {
   id: number;
+  title: string;
   label: string;
   requiredSequence: number;
   questionType: QuestionType;
@@ -50,34 +52,36 @@ export interface IDevelopment extends IQuestion {
 
 export interface IChoice extends IQuestion {
   id: number;
+  title: string;
   label: string;
   requiredSequence: number;
   questionType: QuestionType;
-  mulipleAnswer: boolean
-  selectedChoices: number[]
-  displayedChoices: [Answer]
+  multipleAnswer: boolean;
+  selectedChoices: number[];
+  displayedChoices: DisplayedChoice[];
 }
 
 export interface INestedChoice extends IQuestion {
   id: number;
+  title: string;
   label: string;
   requiredSequence: number;
   questionType: QuestionType;
-  selectedChoices: number[];
-  displayedChoices: NestedAnswer[];
   allSelected: boolean;
+  selectedChoices: number[];
+  displayedChoices: NestedDisplayedChoice[];
 }
 
-export interface Answer {
+export interface DisplayedChoice {
   id: number;
   label: string;
   priority: number;
 }
 
-export interface NestedAnswer {
+export interface NestedDisplayedChoice {
   idGroup: number;
   label: string;
-  answers: Answer[];
+  choices: DisplayedChoice[];
   showGroupOnly: boolean;
 }
 
@@ -85,23 +89,29 @@ export class DriverSurveyChoices {
   surveyDriverId: number;
   questionPriority: QuestionPriority[];
   answers: number[];
+  developmentAnswers: DevelopmentAnswer[];
 }
 
 export class QuestionPriority {
   id: number;
-  priority: number;
+  requiredSequence: number;
   label: string;
 }
 
+export class DevelopmentAnswer {
+  id: number;
+  selectedChoice: string;
+}
+
 export enum QuestionType {
-  DEVELOPMENT = "DEVELOPMENT",
-  CHOICE = "CHOICE",
-  NESTEDCHOICE = "NESTEDCHOICE"
+  DEVELOPMENT = 'DEVELOPMENT',
+  CHOICE = 'CHOICE',
+  NESTEDCHOICE = 'NESTEDCHOICE'
 }
 
 export enum QuestionDataType {
-  DATE,
-  STRING,
-  NUMBER,
-  BOOLEAN,
+  DATE = 'DATE',
+  STRING = 'STRING',
+  NUMBER = 'NUMBER',
+  BOOLEAN = 'BOOLEAN',
 }

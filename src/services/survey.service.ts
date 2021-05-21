@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from "rxjs";
-import { DriverSurveyResponse, DriverSurveysResponse, IChoice, IDriverSurvey, INestedChoice } from "../models/survey.model";
+import { Observable, of } from 'rxjs';
+import { DriverSurveyResponse, DriverSurveysResponse, IChoice, IDriverSurvey, INestedChoice } from '../models/survey.model';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { ApolloQueryResult } from '@apollo/client/core';
 
@@ -25,7 +25,7 @@ query GetDriverSurvey($surveyDriverId: Int!, $languageId: Int!) {
       questionType
       ... on Development{
         questionDataType,
-        selectedChoice     
+        selectedChoice
       },
       ... on Choice{
         selectedChoices,
@@ -33,7 +33,7 @@ query GetDriverSurvey($surveyDriverId: Int!, $languageId: Int!) {
           id
           label
           priority
-        }  
+        }
       },
       ... on NestedChoice{
         selectedChoices,
@@ -46,7 +46,7 @@ query GetDriverSurvey($surveyDriverId: Int!, $languageId: Int!) {
             label,
             priority
           }
-        }  
+        }
       }
     }
   }
