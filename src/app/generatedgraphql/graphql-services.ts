@@ -40,7 +40,10 @@ export type GetDriverSurveyQuery = (
   )> }
 );
 
-export type GetDriverSurveysQueryVariables = Types.Exact<{ [key: string]: never; }>;
+export type GetDriverSurveysQueryVariables = Types.Exact<{
+  criteria: Types.DriverSurveySearchCriteria;
+  languageId: Types.Scalars['Int'];
+}>;
 
 
 export type GetDriverSurveysQuery = (
@@ -104,8 +107,8 @@ export const GetDriverSurveyDocument = gql`
     }
   }
 export const GetDriverSurveysDocument = gql`
-    query GetDriverSurveys {
-  driverSurveysSearch {
+    query GetDriverSurveys($criteria: DriverSurveySearchCriteria!, $languageId: Int!) {
+  driverSurveysSearch(criteria: $criteria, languageId: $languageId) {
     surveyDriverId
     labelDate
     labelDay
@@ -153,11 +156,11 @@ export const GetDriverSurveysDocument = gql`
       return this.getDriverSurveyGql.watch(variables, options)
     }
 
-    getDriverSurveys(variables?: GetDriverSurveysQueryVariables, options?: QueryOptionsAlone<GetDriverSurveysQueryVariables>) {
+    getDriverSurveys(variables: GetDriverSurveysQueryVariables, options?: QueryOptionsAlone<GetDriverSurveysQueryVariables>) {
       return this.getDriverSurveysGql.fetch(variables, options)
     }
 
-    getDriverSurveysWatch(variables?: GetDriverSurveysQueryVariables, options?: WatchQueryOptionsAlone<GetDriverSurveysQueryVariables>) {
+    getDriverSurveysWatch(variables: GetDriverSurveysQueryVariables, options?: WatchQueryOptionsAlone<GetDriverSurveysQueryVariables>) {
       return this.getDriverSurveysGql.watch(variables, options)
     }
   }

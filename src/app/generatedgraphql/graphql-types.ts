@@ -61,6 +61,41 @@ export interface DriverSurvey {
   questions?: Maybe<Array<Question>>;
 }
 
+export interface DriverSurveyChoices {
+  surveyDriverId: Scalars['Int'];
+  questionPriority?: Maybe<Array<Maybe<QuestionPriority>>>;
+  selectedDevelopmentChoice?: Maybe<Array<Maybe<SelectedDevelopmentChoice>>>;
+  selectedChoices?: Maybe<Array<Maybe<Scalars['Int']>>>;
+}
+
+export interface DriverSurveySearchCriteria {
+  managerEmployeId?: Maybe<Scalars['Int']>;
+  driverEmployeId?: Maybe<Scalars['Int']>;
+  surveyId?: Maybe<Scalars['Int']>;
+  surveyStatus?: Maybe<SurveyStatus>;
+  startDate?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['String']>;
+}
+
+export interface Drop {
+  __typename?: 'Drop';
+  number: Scalars['Int'];
+  appointmentTime: Scalars['String'];
+  clientAddress: Scalars['String'];
+}
+
+export interface Mutation {
+  __typename?: 'Mutation';
+  /** Save a specific survey */
+  driverSurvey?: Maybe<DriverSurvey>;
+}
+
+
+export interface MutationDriverSurveyArgs {
+  surveyChoices: DriverSurveyChoices;
+  languageId: Scalars['Int'];
+}
+
 export interface NestedChoice extends Question {
   __typename?: 'NestedChoice';
   id: Scalars['Int'];
@@ -83,13 +118,47 @@ export interface NestedDisplayedChoice {
 
 export interface Query {
   __typename?: 'Query';
+  /** Get a list of surveys */
   driverSurveysSearch?: Maybe<Array<Maybe<DriverSurvey>>>;
+  /** Get a specific survey */
   driverSurvey?: Maybe<DriverSurvey>;
+  /** Get the trips surveys based on survey choices */
+  tripsSurveys?: Maybe<Array<Maybe<TripsSurveys>>>;
+  /** Get a list of suggested trips */
+  suggestedTrips?: Maybe<Array<Maybe<Trip>>>;
+  /** Get the trips details */
+  tripDetails?: Maybe<TripDetails>;
+}
+
+
+export interface QueryDriverSurveysSearchArgs {
+  criteria: DriverSurveySearchCriteria;
+  languageId: Scalars['Int'];
 }
 
 
 export interface QueryDriverSurveyArgs {
   surveyDriverId: Scalars['Int'];
+  languageId: Scalars['Int'];
+}
+
+
+export interface QueryTripsSurveysArgs {
+  driverEmployeId: Scalars['Int'];
+  surveyId: Scalars['Int'];
+  languageId: Scalars['Int'];
+}
+
+
+export interface QuerySuggestedTripsArgs {
+  driverEmployeId: Scalars['Int'];
+  surveyId: Scalars['Int'];
+  languageId: Scalars['Int'];
+}
+
+
+export interface QueryTripDetailsArgs {
+  tripId: Scalars['Int'];
   languageId: Scalars['Int'];
 }
 
@@ -108,9 +177,52 @@ export enum QuestionDataType {
   Boolean = 'BOOLEAN'
 }
 
+export interface QuestionPriority {
+  id: Scalars['Int'];
+  priority: Scalars['Int'];
+}
+
 export enum QuestionType {
   Development = 'DEVELOPMENT',
   Choice = 'CHOICE',
   Nestedchoice = 'NESTEDCHOICE'
+}
+
+export interface SelectedDevelopmentChoice {
+  id: Scalars['Int'];
+  selectedChoice: Scalars['String'];
+}
+
+export enum SurveyStatus {
+  Active = 'ACTIVE',
+  Completed = 'COMPLETED',
+  EngineProcessed = 'ENGINE_PROCESSED',
+  Attributed = 'ATTRIBUTED',
+  Canceled = 'CANCELED'
+}
+
+export interface Trip {
+  __typename?: 'Trip';
+  id: Scalars['Int'];
+  destination: Scalars['String'];
+  deptHour: Scalars['String'];
+  milage: Scalars['Int'];
+  firstRdv: Scalars['String'];
+  type: Scalars['String'];
+}
+
+export interface TripDetails {
+  __typename?: 'TripDetails';
+  tripId: Scalars['Int'];
+  departureDay: Scalars['String'];
+  hasDangerousGoods?: Maybe<Scalars['Boolean']>;
+  drops?: Maybe<Array<Maybe<Drop>>>;
+}
+
+export interface TripsSurveys {
+  __typename?: 'TripsSurveys';
+  surveyId: Scalars['Int'];
+  labelDay: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
 }
 

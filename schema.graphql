@@ -2,6 +2,7 @@
 
 schema {
   query: Query
+  mutation: Mutation
 }
 
 interface Question {
@@ -50,6 +51,17 @@ type DriverSurvey {
   surveyDriverId: Int!
 }
 
+type Drop {
+  appointmentTime: String!
+  clientAddress: String!
+  number: Int!
+}
+
+type Mutation {
+  "Save a specific survey"
+  driverSurvey(languageId: Int!, surveyChoices: DriverSurveyChoices!): DriverSurvey
+}
+
 type NestedChoice implements Question {
   allSelected: Boolean!
   displayedChoices: [NestedDisplayedChoice!]
@@ -69,8 +81,38 @@ type NestedDisplayedChoice {
 }
 
 type Query {
+  "Get a specific survey"
   driverSurvey(languageId: Int!, surveyDriverId: Int!): DriverSurvey
-  driverSurveysSearch: [DriverSurvey]
+  "Get a list of surveys"
+  driverSurveysSearch(criteria: DriverSurveySearchCriteria!, languageId: Int!): [DriverSurvey]
+  "Get a list of suggested trips"
+  suggestedTrips(driverEmployeId: Int!, languageId: Int!, surveyId: Int!): [Trip]
+  "Get the trips details"
+  tripDetails(languageId: Int!, tripId: Int!): TripDetails
+  "Get the trips surveys based on survey choices"
+  tripsSurveys(driverEmployeId: Int!, languageId: Int!, surveyId: Int!): [TripsSurveys]
+}
+
+type Trip {
+  deptHour: String!
+  destination: String!
+  firstRdv: String!
+  id: Int!
+  milage: Int!
+  type: String!
+}
+
+type TripDetails {
+  departureDay: String!
+  drops: [Drop]
+  hasDangerousGoods: Boolean
+  tripId: Int!
+}
+
+type TripsSurveys {
+  labelDay: String!
+  surveyId: Int!
+  title: String
 }
 
 enum CacheControlScope {
@@ -89,6 +131,40 @@ enum QuestionType {
   CHOICE
   DEVELOPMENT
   NESTEDCHOICE
+}
+
+enum SurveyStatus {
+  ACTIVE
+  ATTRIBUTED
+  CANCELED
+  COMPLETED
+  ENGINE_PROCESSED
+}
+
+input DriverSurveyChoices {
+  questionPriority: [QuestionPriority]
+  selectedChoices: [Int]
+  selectedDevelopmentChoice: [SelectedDevelopmentChoice]
+  surveyDriverId: Int!
+}
+
+input DriverSurveySearchCriteria {
+  driverEmployeId: Int
+  endDate: String
+  managerEmployeId: Int
+  startDate: String
+  surveyId: Int
+  surveyStatus: SurveyStatus
+}
+
+input QuestionPriority {
+  id: Int!
+  priority: Int!
+}
+
+input SelectedDevelopmentChoice {
+  id: Int!
+  selectedChoice: String!
 }
 
 

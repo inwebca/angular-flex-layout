@@ -23,7 +23,7 @@ export class DriverSurveyCardsComponent implements OnInit {
     ){}
 
   ngOnInit(): void{
-    this.surveysObs$ = this.gql.getDriverSurveys().pipe(map(value => value.data.driverSurveysSearch));
+    this.surveysObs$ = this.gql.getDriverSurveys({criteria: {startDate: '2021-05-01'}, languageId: 1}).pipe(map(value => value.data.driverSurveysSearch));
 
     this.surveysObs$.subscribe(value => {
       this.surveys = value;
