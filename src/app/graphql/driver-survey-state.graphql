@@ -1,0 +1,5 @@
+query GetDriverSurveyState($driverEmployeId: Int!){
+  driverSurveyState(driverEmployeId:  $driverEmployeId){
+    state
+  }
+}

@@ -4,6 +4,19 @@ import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 import * as ApolloCore from '@apollo/client/core';
+export type GetDriverSurveyStateQueryVariables = Types.Exact<{
+  driverEmployeId: Types.Scalars['Int'];
+}>;
+
+
+export type GetDriverSurveyStateQuery = (
+  { __typename?: 'Query' }
+  & { driverSurveyState?: Types.Maybe<(
+    { __typename?: 'SurveyState' }
+    & Pick<Types.SurveyState, 'state'>
+  )> }
+);
+
 export type GetDriverSurveyQueryVariables = Types.Exact<{
   surveyDriverId: Types.Scalars['Int'];
   languageId: Types.Scalars['Int'];
@@ -54,6 +67,24 @@ export type GetDriverSurveysQuery = (
   )>>> }
 );
 
+export const GetDriverSurveyStateDocument = gql`
+    query GetDriverSurveyState($driverEmployeId: Int!) {
+  driverSurveyState(driverEmployeId: $driverEmployeId) {
+    state
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetDriverSurveyStateGQL extends Apollo.Query<GetDriverSurveyStateQuery, GetDriverSurveyStateQueryVariables> {
+    document = GetDriverSurveyStateDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetDriverSurveyDocument = gql`
     query GetDriverSurvey($surveyDriverId: Int!, $languageId: Int!) {
   driverSurvey(surveyDriverId: $surveyDriverId, languageId: $languageId) {
@@ -144,9 +175,18 @@ export const GetDriverSurveysDocument = gql`
   @Injectable({ providedIn: 'root' })
   export class GriGraphqlService {
     constructor(
+      private getDriverSurveyStateGql: GetDriverSurveyStateGQL,
       private getDriverSurveyGql: GetDriverSurveyGQL,
       private getDriverSurveysGql: GetDriverSurveysGQL
     ) {}
+
+    getDriverSurveyState(variables: GetDriverSurveyStateQueryVariables, options?: QueryOptionsAlone<GetDriverSurveyStateQueryVariables>) {
+      return this.getDriverSurveyStateGql.fetch(variables, options)
+    }
+
+    getDriverSurveyStateWatch(variables: GetDriverSurveyStateQueryVariables, options?: WatchQueryOptionsAlone<GetDriverSurveyStateQueryVariables>) {
+      return this.getDriverSurveyStateGql.watch(variables, options)
+    }
 
     getDriverSurvey(variables: GetDriverSurveyQueryVariables, options?: QueryOptionsAlone<GetDriverSurveyQueryVariables>) {
       return this.getDriverSurveyGql.fetch(variables, options)

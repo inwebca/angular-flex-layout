@@ -118,6 +118,8 @@ export interface NestedDisplayedChoice {
 
 export interface Query {
   __typename?: 'Query';
+  /** Get survey state */
+  driverSurveyState?: Maybe<SurveyState>;
   /** Get a list of surveys */
   driverSurveysSearch?: Maybe<Array<Maybe<DriverSurvey>>>;
   /** Get a specific survey */
@@ -128,6 +130,11 @@ export interface Query {
   suggestedTrips?: Maybe<Array<Maybe<Trip>>>;
   /** Get the trips details */
   tripDetails?: Maybe<TripDetails>;
+}
+
+
+export interface QueryDriverSurveyStateArgs {
+  driverEmployeId: Scalars['Int'];
 }
 
 
@@ -191,6 +198,16 @@ export enum QuestionType {
 export interface SelectedDevelopmentChoice {
   id: Scalars['Int'];
   selectedChoice: Scalars['String'];
+}
+
+export interface SurveyState {
+  __typename?: 'SurveyState';
+  state?: Maybe<SurveyStates>;
+}
+
+export enum SurveyStates {
+  Survey = 'SURVEY',
+  Trips = 'TRIPS'
 }
 
 export enum SurveyStatus {

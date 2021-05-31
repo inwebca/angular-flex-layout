@@ -83,6 +83,8 @@ type NestedDisplayedChoice {
 type Query {
   "Get a specific survey"
   driverSurvey(languageId: Int!, surveyDriverId: Int!): DriverSurvey
+  "Get survey state"
+  driverSurveyState(driverEmployeId: Int!): SurveyState
   "Get a list of surveys"
   driverSurveysSearch(criteria: DriverSurveySearchCriteria!, languageId: Int!): [DriverSurvey]
   "Get a list of suggested trips"
@@ -91,6 +93,10 @@ type Query {
   tripDetails(languageId: Int!, tripId: Int!): TripDetails
   "Get the trips surveys based on survey choices"
   tripsSurveys(driverEmployeId: Int!, languageId: Int!, surveyId: Int!): [TripsSurveys]
+}
+
+type SurveyState {
+  state: SurveyStates
 }
 
 type Trip {
@@ -131,6 +137,11 @@ enum QuestionType {
   CHOICE
   DEVELOPMENT
   NESTEDCHOICE
+}
+
+enum SurveyStates {
+  SURVEY
+  TRIPS
 }
 
 enum SurveyStatus {
